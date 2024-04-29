@@ -1,5 +1,5 @@
-#ifndef structures_h
-#define structures_h
+#ifndef STRUCTURES_H
+#define STRUCTURES_H
 
 typedef struct model_point{
 	double x;

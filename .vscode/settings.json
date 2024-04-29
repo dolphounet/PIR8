@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "global.h": "c",
+        "structures.h": "c",
+        "dessiner.h": "c"
+    }
+}

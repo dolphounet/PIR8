@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "structures.h"
 #include "global.h"
 
+CERCLE res_welz; 
 
 double distance(POINT p1, POINT p2) {
     return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
@@ -39,7 +41,7 @@ CERCLE algo_welz(POINT* tab, int n){
     // Cas général
     else {
         // Sélectionnez un point aléatoire
-        int randomIndex = rand() % n;
+        int randomIndex = rand()%n;
         POINT randomPoint = tab[randomIndex];
 
         // Supprimez ce point de la liste

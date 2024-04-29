@@ -1,8 +1,12 @@
 
 #include <math.h>
 #include <stdio.h>
-#include "structures.h"
 #include "global.h"
+#include "structures.h"
+#include "dessiner.h"
+#include "calculs.h"
+
+FILE *file;
 
 //Dessine les points et le cercle dans le SVG
 void ecritureSVG(POINT tab[], FILE* file , int N){
@@ -12,12 +16,11 @@ void ecritureSVG(POINT tab[], FILE* file , int N){
     p.y = ((tab[i].y-inf)*1800/(sup-inf))+100;
     dessinerPoint(file, p, 8);
   }
-  trouver_c(tab,file,N,&centerX,&centerY,&rayon);
+  trouver_c(tab,file,N);
 }
 
 void GenerationFichierSVG(POINT* tab , int N){
   //creation et ouverture du fichier
-  FILE *file;
   file= fopen("Points.svg", "w");
   
   //ecriture de l'entete

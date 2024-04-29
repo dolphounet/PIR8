@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
-LDFLAGS =
+LDFLAGS = -lm
 
 SRCDIR = src
 OBJDIR = obj
@@ -15,7 +15,7 @@ MAIN = $(SRCDIR)/main.c
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -23,6 +23,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(shell mkdir -p $(OBJDIR) $(BINDIR))
 
 clean:
-    rm -rf $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJDIR) $(BINDIR)
 
 .PHONY: all clean

@@ -1,6 +1,8 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "structures.h"
+#include "global.h"
 
 //Dessine un point en SVG
 char* dessinerPoint(FILE *file, POINT p, int r){ 

@@ -4,13 +4,13 @@
 #include <math.h>
 #include "structures.h"
 #include "global.h"
-
-
-int rand_a_b (int a, int b){
-  return rand()%(b-a )+a;
-}
+#include "coord.h"
+#include "sgv.h"
+#include "welz.h"
+int N, xmin, xmax, ymin, ymax, inf,sup;
 
 int main( int argc, char* argv []){
+
    //N=nb  de points et coordonnées du cadre 
   srand(time(NULL));
   if (argc!=6){
@@ -39,11 +39,6 @@ int main( int argc, char* argv []){
   GenerationFichierSVG(tab , N);
  
  //Implementation WELZ 
-
   algo_welz(tab,N);
-  printf("Centre du cercle minimum : (%.2f, %.2f)\n", res_welz.x_cercle, res_welz.y_cercle);
-  printf("Rayon du cercle minimum : %.2f\n", res_welz.rayon_cercle);
   return 0; 
- }  
-
- 
+ }   

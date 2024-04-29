@@ -1,9 +1,15 @@
-#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 #include "structures.h"
 #include "global.h"
 
 int x,y;
+
+int rand_a_b (int a, int b){
+  return rand()%(b-a )+a;
+}
 
 void coord_aleatoires(POINT* tab){
   for (int i=0;i<N;i++){
