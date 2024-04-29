@@ -1,20 +1,28 @@
-#Declaration des variables
-CC= gcc
-CFLAGS= -Wall
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c11
+LDFLAGS =
 
-#Commandes
+SRCDIR = src
+OBJDIR = obj
+BINDIR = bin
 
-all: generateur 
+SOURCES = $(wildcard $(SRCDIR)/*.c)
+OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
+EXECUTABLE = $(BINDIR)/mon_programme
 
-###
+MAIN = $(SRCDIR)/main.c
 
-generateur: generateur.c
-	$(CC) $(CFLAGS) $< -lm -o $@
+all: $(EXECUTABLE)
 
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $^ -o $@
 
-#Nettoyage
-clean: 
-	rm -f *.o
-	rm -f *.svg
-	rm -f *~
-	rm generateur 
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(shell mkdir -p $(OBJDIR) $(BINDIR))
+
+clean:
+    rm -rf $(OBJDIR) $(BINDIR)
+
+.PHONY: all clean
