@@ -9,34 +9,34 @@
 #include "welz.h"
 int N, choix, xmin, xmax, ymin, ymax, inf, sup;
 
-int main( int argc, char* argv []){
+int main(int argc, char* argv[]){
 
-   //N=nb  de points et coordonnées du cadre 
+   // N = nb de points et coordonnées du cadre 
   srand(time(NULL));
   if (argc!=6){
     printf ("nb invalide d'arguments\n");
     printf("usage: %s <nbDePoints> <xmin> <xmax> <ymin> <ymax>\n", argv[0]);
     return 1;
   }
-  N=atoi(argv[1]);
-  printf ("%d \n", N); //Affichage nb de points générés
-  xmin=atoi(argv[2]);   
-  xmax=atoi(argv[3]);
-  ymin=atoi(argv[4]);
-  ymax=atoi(argv[5]);
+  N = atoi(argv[1]);
+  printf ("%d \n", N);  // Affichage nb de points générés
+  xmin = atoi(argv[2]);   
+  xmax = atoi(argv[3]);
+  ymin = atoi(argv[4]);
+  ymax = atoi(argv[5]);
   res_rayon = INFINITY;
   inf = xmin;
   sup = xmax; 
-  if (ymax>sup){
+  if (ymax > sup){
     sup = ymax;
   }
-  if (ymin<inf){
+  if (ymin < inf){
     inf = ymin;
   }
-  POINT* tab=malloc (sizeof(POINT)*N);
+  POINT* tab = malloc (sizeof(POINT) * N);
   coord_aleatoires(tab);
 
-  GenerationFichierSVG(tab , N);
+  GenerationFichierSVG(tab, N);
   
   /* Choix de l'algoritme */
   printf("Quel algorithme voulez-vous utiliser ?\n1. Welz\n2. Force brute\nRépondez par 1 ou 2 :\t");
@@ -45,7 +45,7 @@ int main( int argc, char* argv []){
     scanf("%d", &choix);
 
     if(choix == 1)  {
-      algo_welz(tab,N);  // Implementation WELZ 
+      algo_welz(tab, N);  // Implementation WELZ 
       return 0;
     }
     else if (choix == 2)  {

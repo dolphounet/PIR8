@@ -106,12 +106,13 @@ void algo_naif (FILE *file,POINT* tab, int N){
   dessinerCercle(file, res_x_dessin, res_y_dessin, res_rayon_dessin);
 }
 
-void trouver_c (POINT tab[],FILE* file,int N){
-  if(N < 2){
+void trouver_c (POINT tab[], FILE* file, int N){
+  if(N < 2) {
     centerX = 0; 
     centerY = 0; 
     rayon = 0; 
-  }else{
-    algo_naif(file,tab,N);
+  }
+  else  {
+    algo_naif(file, tab, N);
   }
 }

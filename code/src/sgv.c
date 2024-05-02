@@ -16,11 +16,12 @@ void ecritureSVG(POINT tab[], FILE* file , int N){
     p.y = ((tab[i].y-inf)*1800/(sup-inf))+100;
     dessinerPoint(file, p, 8);
   }
-  trouver_c(tab,file,N);
+  trouver_c(tab, file, N);
 }
 
 void GenerationFichierSVG(POINT* tab , int N){
   //creation et ouverture du fichier
+  remove("Points.svg");
   file= fopen("Points.svg", "w");
   
   //ecriture de l'entete
