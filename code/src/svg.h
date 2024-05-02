@@ -1,5 +1,5 @@
-#ifndef SGV_H
-#define SGV_H
+#ifndef SVG_H
+#define SVG_H
 #include <math.h>
 #include <stdio.h>
 #include "global.h"

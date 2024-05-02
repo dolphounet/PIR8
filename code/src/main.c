@@ -5,7 +5,7 @@
 #include "structures.h"
 #include "global.h"
 #include "coord.h"
-#include "sgv.h"
+#include "svg.h"
 #include "welz.h"
 #include "megiddo.h"
 int N, choix, xmin, xmax, ymin, ymax, inf, sup;
