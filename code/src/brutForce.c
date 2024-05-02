@@ -12,14 +12,14 @@ void xycentre(DROITE d, double x, double y) {
     DROITE p;
     if(d.pente == 0) {
         p.pente = 9999999999;
-        p.ordonnée =  y - x * p.pente;
+        p.ordonnee =  y - x * p.pente;
     }
     else {
         p.pente = -(1 / d.pente);
-        p.ordonnée = y - x * p.pente;
+        p.ordonnee = y - x * p.pente;
     }
-    centerX = (p.ordonnée - d.ordonnée) / (d.pente - p.pente);
-    centerY = d.pente * centerX + d.ordonnée ;
+    centerX = (p.ordonnee - d.ordonnee) / (d.pente - p.pente);
+    centerY = d.pente * centerX + d.ordonnee ;
 }
 
 

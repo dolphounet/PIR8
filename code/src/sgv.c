@@ -51,7 +51,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix) {
     d.y_b = ((ymax - inf)*1800/(sup - inf))/2 + 100;
     d.y_a = d.y_b;
     d.pente = (d.y_b - d.y_a) / (d.x_b - d.x_a);
-    d.ordonnée = d.y_a - d.pente * d.x_a;
+    d.ordonnee = d.y_a - d.pente * d.x_a;
     dessinerDroite(file, d);
     xycentre(d, 33, 100);
   }

@@ -16,7 +16,7 @@ typedef struct model_droite{
 	double x_a, x_b;
 	double y_a, y_b;
 	double pente;
-	double ordonnée;
+	double ordonnee;
 } DROITE;
 
 #endif
