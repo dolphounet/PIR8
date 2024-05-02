@@ -1,5 +1,5 @@
-#ifndef SGV_H
-#define SGV_H
+#ifndef SVG_H
+#define SVG_H
 #include <math.h>
 #include <stdio.h>
 #include "global.h"
@@ -9,6 +9,6 @@
 
 //Dessine les points et le cercle dans le SVG
 void ecritureSVG(POINT tab[], FILE* file , int N);
-void GenerationFichierSVG(POINT* tab , int N, int choix);
+void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab);
 
 #endif

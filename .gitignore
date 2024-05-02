@@ -35,6 +35,7 @@
 *.i*86
 *.x86_64
 *.hex
+code/bin/*
 
 # Debug files
 *.dSYM/
@@ -53,3 +54,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Fichier externes
+.vscode/
+.DS_Store
