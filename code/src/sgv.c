@@ -53,7 +53,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix) {
     d.pente = (d.y_b - d.y_a) / (d.x_b - d.x_a);
     d.ordonnée = d.y_a - d.pente * d.x_a;
     dessinerDroite(file, d);
-    xycentre(d, 33, 100);
+    recherche(tab, d);
   }
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");
