@@ -13,13 +13,13 @@ char* dessinerPoint(FILE *file, POINT p, int r) {
 }
 
 char* dessinerCercle(FILE *file, double x, double y, double r)  {
-  char* codeCercle = malloc (sizeof (*codeCercle) *500);
+  char* codeCercle = malloc (sizeof (*codeCercle) * 500);
   sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
   fprintf(file,"%s\n", codeCercle);
   return codeCercle;
 }
 
 char* dessinerDroite(FILE *file, DROITE d)  {
-  fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" />\n", d.x_a, d.y_a, d.x_b, d.y_b);
+  fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", d.x_a, d.y_a, d.x_b, d.y_b);
   return 0;
 }
