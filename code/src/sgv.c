@@ -8,6 +8,7 @@
 #include "brutforce.h"
 
 FILE *file;
+int i;
 
 //Dessine les points et le cercle dans le SVG
 void ecritureSVG(POINT tab[], FILE* file , int N){
@@ -19,7 +20,7 @@ void ecritureSVG(POINT tab[], FILE* file , int N){
   }
 }
 
-void GenerationFichierSVG(POINT* tab , int N, int choix) {
+void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab){
   //creation et ouverture du fichier
   remove("Points.svg");
   file= fopen("Points.svg", "w");
@@ -54,6 +55,15 @@ void GenerationFichierSVG(POINT* tab , int N, int choix) {
     d.ordonnee = d.y_a - d.pente * d.x_a;
     dessinerDroite(file, d);
     xycentre(d, 33, 100);
+  }
+  else if(choix == 3) {
+    for (i =0; i<10; i++) {
+      droite_tab[i].x_a = ((droite_tab[i].x_a - inf)*1800/(sup - inf)) + 100;
+      droite_tab[i].x_b = ((droite_tab[i].x_b - inf)*1800/(sup - inf)) + 100;
+      droite_tab[i].y_b = ((droite_tab[i].y_b - inf)*1800/(sup - inf)) + 100;
+      droite_tab[i].y_a = ((droite_tab[i].y_a - inf)*1800/(sup - inf)) + 100;
+      dessinerDroite(file, droite_tab[i]);
+    }
   }
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");

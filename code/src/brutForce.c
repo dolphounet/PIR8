@@ -4,7 +4,6 @@
 #include "structures.h"
 #include "global.h"
 
-double x, y;
 CERCLE res_bf;
 
 
@@ -24,8 +23,8 @@ void xycentre(DROITE d, double x, double y) {
 
 
 void recherche(POINT *tab, DROITE d) {
-    x = tab[0].x;
-    y = tab[0].y;
+    int x = tab[0].x;
+    int y = tab[0].y;
     xycentre(d, x, y);
     for (int i = 1; i < N-1; i++) {
         // comparaison du rayon initial avec toutes les autres possibilités
