@@ -9,5 +9,6 @@
 
 char* dessinerPoint(FILE *file, POINT p, int r);
 char* dessinerCercle(FILE *file, double x, double y, double r);
+char* dessinerDroite(FILE *file, DROITE d);
 
 #endif

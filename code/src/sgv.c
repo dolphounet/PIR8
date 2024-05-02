@@ -16,10 +16,9 @@ void ecritureSVG(POINT tab[], FILE* file , int N){
     p.y = ((tab[i].y-inf)*1800/(sup-inf))+100;
     dessinerPoint(file, p, 8);
   }
-  trouver_c(tab, file, N);
 }
 
-void GenerationFichierSVG(POINT* tab , int N){
+void GenerationFichierSVG(POINT* tab , int N, int choix) {
   //creation et ouverture du fichier
   remove("Points.svg");
   file= fopen("Points.svg", "w");
@@ -32,18 +31,28 @@ void GenerationFichierSVG(POINT* tab , int N){
   fprintf(file,"<svg width=\"2000\" height=\"2000\" version=\"1.1\"\n");
   fprintf(file, "xmlns=\"http://www.w3.org/2000/svg\" style=\"background-color: white\">\n");
   fprintf(file, "<rect x=\"0\" y=\"0\" width=\"2000\" height=\"2000\" fill=\"#ffffff\" />\n");
-
   fprintf(file, "<line x1=\"100\" y1=\"100\" x2=\"1900\" y2=\"100\" stroke=\"black\" />\n"); // Axe x
-
   fprintf(file, "<text x=\"1900\" y=\"100\" font-family=\"Arial\" font-size=\"20\">%d</text>\n", sup);
-
   fprintf(file, "<line x1=\"100\" y1=\"100\" x2=\"100\" y2=\"1900\" stroke=\"black\" />\n"); // Axe y
   fprintf(file, "<text x=\"100\" y=\"100\" font-family=\"Arial\" font-size=\"20\">%d</text>\n", inf);
   fprintf(file, "<text x=\"100\" y=\"1900\" font-family=\"Arial\" font-size=\"20\">%d</text>\n", sup);    
 
  
   //ecriture du programme
-  ecritureSVG(tab,file,N);
+  ecritureSVG(tab, file, N);
+  if(choix == 1) {
+    trouver_c(tab, file, N);
+  }
+  else if(choix == 2) {
+    DROITE d;
+    d.x_a = ((xmin - inf)*1800/(sup - inf)) + 100;
+    d.x_b = ((xmax - inf)*1800/(sup - inf)) + 100;
+    d.y_a = ((ymax - ymin)/2*1800/(sup - inf)) + 100;
+    d.y_b = d.y_a;
+    dessinerDroite(file, d);
+    printf("%d", xmax-xmin);
+    printf("%d", ymax-ymin);
+  }
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");
   fclose(file);

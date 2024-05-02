@@ -35,8 +35,6 @@ int main(int argc, char* argv[]){
   }
   POINT* tab = malloc (sizeof(POINT) * N);
   coord_aleatoires(tab);
-
-  GenerationFichierSVG(tab, N);
   
   /* Choix de l'algoritme */
   printf("Quel algorithme voulez-vous utiliser ?\n1. Welz\n2. Force brute\nRépondez par 1 ou 2 :\t");
@@ -45,10 +43,12 @@ int main(int argc, char* argv[]){
     scanf("%d", &choix);
 
     if(choix == 1)  {
+      GenerationFichierSVG(tab, N, choix);
       algo_welz(tab, N);  // Implementation WELZ 
       return 0;
     }
     else if (choix == 2)  {
+      GenerationFichierSVG(tab, N, choix);
       printf("\nGénération droite...");
       return 0; 
     }

@@ -64,7 +64,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
       findCircle_deux_points(p, q, &centerX, &centerY, &rayon);
       //verifiation des points 
       if (verification(tab, &centerX, &centerY, &rayon)== 1){
-          dessinerCercle(file,centerX_dessin,centerY_dessin,rayondessin);
+          dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
           return ; 
       }
     }
