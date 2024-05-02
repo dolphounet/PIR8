@@ -4,13 +4,10 @@
 #include "structures.h"
 #include "global.h"
 
-<<<<<<< HEAD
 double px, py;
 double x, y, r;
 double cx, cy, cr;
 int nb_point, n;
-=======
->>>>>>> 899dc0b60ef501699c872b13b24db1e4a6e693cf
 CERCLE res_bf;
 
 
@@ -25,9 +22,8 @@ double xycentre(DROITE d, double x, double y) {
         p.pente = -(1 / d.pente);
         p.ordonnee = y - x * p.pente;
     }
-<<<<<<< HEAD
-    cx = (p.ordonnée - d.ordonnée) / (d.pente - p.pente);
-    cy = d.pente * centerX + d.ordonnée;
+    cx = (p.ordonnee - d.ordonnee) / (d.pente - p.pente);
+    cy = d.pente * centerX + d.ordonnee;
     cr = sqrt(pow(x - cx, 2) + pow(y - cy, 2));
     return cr;
 }
@@ -45,15 +41,10 @@ int countPointsInCircle(POINT *tab, double x, double y, double r) {
         }
     }
     return count;
-=======
-    centerX = (p.ordonnee - d.ordonnee) / (d.pente - p.pente);
-    centerY = d.pente * centerX + d.ordonnee ;
->>>>>>> 899dc0b60ef501699c872b13b24db1e4a6e693cf
 }
 
 
 void recherche(POINT *tab, DROITE d) {
-<<<<<<< HEAD
     px = tab[0].x;
     py = tab[0].y;
 
@@ -63,11 +54,6 @@ void recherche(POINT *tab, DROITE d) {
     centerY = cy;
     nb_point = countPointsInCircle(tab, centerX, centerY, rayon);
 
-=======
-    int x = tab[0].x;
-    int y = tab[0].y;
-    xycentre(d, x, y);
->>>>>>> 899dc0b60ef501699c872b13b24db1e4a6e693cf
     for (int i = 1; i < N-1; i++) {
         r = xycentre(d, tab[i].x, tab[i].y);
         x = cx;
