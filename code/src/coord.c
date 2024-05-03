@@ -5,7 +5,7 @@
 #include "structures.h"
 #include "global.h"
 
-int x, y;
+int xx, yy;
 
 int rand_a_b (int a, int b){
   return rand() % (b - a) + a;
@@ -14,18 +14,18 @@ int rand_a_b (int a, int b){
 void coord_aleatoires(POINT* tab){
   for (int i = 0 ; i < N ; i++){
     if (xmin != xmax){
-      x = rand_a_b(xmin, xmax);
+      xx = rand_a_b(xmin, xmax);
     }else{
-      x = xmin;
+      xx = xmin;
     } 
     if (ymin != ymax){
-      y = rand_a_b(ymin, ymax);
+      yy = rand_a_b(ymin, ymax);
     }else{
-      y = ymin;
+      yy = ymin;
     } 
-    tab[i].x = x;
-    tab[i].y = y;
-    printf("%d , %d \n", x,y);
+    tab[i].x = xx;
+    tab[i].y = yy;
+    printf("%d , %d \n", xx,yy);
   }
   if (inf == sup ){
     inf = sup - 1; 

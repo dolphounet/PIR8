@@ -4,6 +4,7 @@
 #include "structures.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 DROITE* algo_megiddo(POINT* tab, int n);
 
