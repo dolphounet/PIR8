@@ -5,7 +5,7 @@
 #include "global.h"  
 #include "dessiner.h"
 
-double centerX, centerY, rayon,centerX_dessin, centerY_dessin, rayondessin; 
+double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin; 
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
 
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) {

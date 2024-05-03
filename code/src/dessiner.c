@@ -20,6 +20,10 @@ char* dessinerCercle(FILE *file, double x, double y, double r)  {
 }
 
 char* dessinerDroite(FILE *file, DROITE d)  {
-  fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", d.x_a, d.y_a, d.x_b, d.y_b);
+  double xa = (d.x_a*1800/(sup - inf)) + 100;
+  double xb = (d.x_b*1800/(sup - inf)) + 100;
+  double yb = (d.y_b*1800/(sup - inf)) + 100;
+  double ya = yb;
+  fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", xa, ya, xb, yb);
   return 0;
 }

@@ -47,9 +47,9 @@ void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab){
   }
   else if(choix == 2) {
     DROITE d;
-    d.x_a = ((xmin - inf)*1800/(sup - inf)) + 100;
-    d.x_b = ((xmax - inf)*1800/(sup - inf)) + 100;
-    d.y_b = ((ymax - inf)*1800/(sup - inf))/2 + 100;
+    d.x_a = xmin - inf;
+    d.x_b = xmax - inf;
+    d.y_b = (ymax - inf)/2;
     d.y_a = d.y_b;
     d.pente = (d.y_b - d.y_a) / (d.x_b - d.x_a);
     d.ordonnee = d.y_a - d.pente * d.x_a;
