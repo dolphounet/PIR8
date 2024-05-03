@@ -48,9 +48,8 @@ int countPointsInCircle(POINT *tab, double x, double y, double r)
     return count;
 }
 
-void meilleurcentre(int nb_point , int n, double rayon, double r, int i) {
-    if(nb_point < n)
-        {
+/* void meilleurCentre(int nb_point, int n, double rayon, double r, int i) {
+    if(nb_point < n) {
             nb_point = n;
             rayon = r;
             centerX = x;
@@ -67,7 +66,7 @@ void meilleurcentre(int nb_point , int n, double rayon, double r, int i) {
                 j = i;
             }
         }
-}
+} */
 
 void formatSVG(POINT *tab) {
     centerX_dessin = ((centerX-inf)*1800/(sup-inf))+100;
@@ -86,15 +85,35 @@ void recherche(POINT *tab, DROITE d)
     centerX = cx;
     centerY = cy;
     nb_point = countPointsInCircle(tab, centerX, centerY, rayon);
+    printf("\n%f %d\n",rayon,nb_point);
     for (int i = 1; i < N; i++)
     {
         r = xycentre(d, tab[i].x, tab[i].y);
         x = cx;
         y = cy;
         n = countPointsInCircle(tab, x, y, r);
-        meilleurcentre(nb_point, n, rayon, r, i);
+        if(nb_point < n) {
+            nb_point = n;
+            rayon = r;
+            centerX = x;
+            centerY = y;
+            j = i;
+        }
+        else if(nb_point == n) {
+            if(r <= rayon)
+            {
+                nb_point = n;
+                rayon = r;
+                centerX = x;
+                centerY = y;
+                j = i;
+            }
+        }        
+        printf("%f %d\n",r,n);
     }
-    printf("\n%f %f %f\n", centerX, centerY, rayon);
+    printf("\nNombre de points dans le cercle : %d/%d", nb_point, N);
+    printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerX, centerY, rayon);
     formatSVG(tab);
     dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
+    dessinerCentre(file, centerX_dessin, centerY_dessin);
 }

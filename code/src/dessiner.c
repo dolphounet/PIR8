@@ -27,3 +27,10 @@ char* dessinerDroite(FILE *file, DROITE d)  {
   fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", xa, ya, xb, yb);
   return 0;
 }
+
+char* dessinerCentre(FILE *file, double x, double y) { 
+  char* codeCentre = malloc (sizeof (*codeCentre) * 500);
+  sprintf(codeCentre,"<circle cx=\"%f\" cy=\"%f\" r=\"10\" stroke=\"red\" stroke-width=\"1\" fill=\"red\"/>",x,y);
+  fprintf(file,"%s\n", codeCentre);
+  return codeCentre;
+}

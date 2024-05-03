@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
   coord_aleatoires(tab);
   
   /* Choix de l'algoritme */
-  printf("Quel algorithme voulez-vous utiliser ?\n1. Welz\n2. Force brute\nRépondez par 1, 2 ou 3 :\t");
+  printf("\n\nQuel algorithme voulez-vous utiliser ?\n1. Welz\n2. Brut force\n3. Megiddo\n\nRépondez par 1, 2 ou 3 : ");
 
   while(1) {
     scanf("%d", &choix);
@@ -51,7 +51,6 @@ int main(int argc, char* argv[]){
     }
     else if (choix == 2)  {
       GenerationFichierSVG(tab, N, choix, droite_tab);
-      printf("\nGénération droite...");
       return 0; 
     }
     else if (choix == 3)  {
@@ -60,7 +59,7 @@ int main(int argc, char* argv[]){
       return 0;
     }
     else {
-      printf("Réponse incorrecte, répondez par 1, 2 ou 3 :\t");
+      printf("\nRéponse incorrecte, répondez par 1, 2 ou 3 : ");
     }
   }
  }   
