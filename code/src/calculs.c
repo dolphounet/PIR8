@@ -4,6 +4,7 @@
 #include "structures.h"
 #include "global.h"  
 #include "dessiner.h"
+#include "incercle.h"
 
 double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin; 
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
@@ -37,20 +38,36 @@ void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, 
     rayondessin = sqrt(pow(centerX_dessin - n_pix, 2) + pow(centerY_dessin - n_piy, 2));
 }
 
-int verification (POINT* tab, double *centerX, double *centerY, double *rayon){
+int verification_cercle_trois_points (POINT* tab, POINT a, POINT b, POINT c){
+  int inside = 1; 
   for (int i = 0; i < N; i++) {  
-    POINT p;
-    p.x = tab[i].x;
-    p.y = tab[i].y;
-    double distance = sqrt(pow(*centerX - p.x, 2) + pow(*centerY - p.y, 2));
-    if (distance > *rayon) {
-      return 0;
+    POINT d;
+    d.x = tab[i].x;
+    d.y = tab[i].y;
+    if (in_cercle_trois_points(a,b,c,d)<0) {
+      inside = 0; 
+      break;
     }
   }
-  return 1;
+  return inside;
+}
+
+int verification_cercle_deux_points (POINT* tab, POINT a, POINT b){
+  int inside = 1; 
+  for (int i = 0; i < N; i++) {  
+    POINT d;
+    d.x = tab[i].x;
+    d.y = tab[i].y;
+    if (in_cercle_deux_points(a,b,d)<0) {
+      inside = 0; 
+      break;
+    }
+  }
+  return inside;
 }
 
 void algo_naif (FILE *file,POINT* tab, int N){
+  printf("YES");
   for (int i = 0; i < N-1; i++) {
     POINT p;
     p.x = tab[i].x;
@@ -63,7 +80,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
       printf("%.2f , %.2f \n", q.x, q.y);
       findCircle_deux_points(p, q, &centerX, &centerY, &rayon);
       //verifiation des points 
-      if (verification(tab, &centerX, &centerY, &rayon)== 1){
+      if (verification_cercle_deux_points(tab, p, q)== 1){
           dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
           return ; 
       }
@@ -91,7 +108,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
           printf("%.2f , %.2f \n", r.x, r.y);
           findCircle(p, q, r, &centerX, &centerY, &rayon);
           printf("centreX %.2f, centreY %.2f, rayon %.2f \n", centerX, centerY, rayon);
-          if (verification(tab, &centerX, &centerY, &rayon)== 1 && rayon<res_rayon){
+          if (verification_cercle_trois_points(tab,p,q,r)== 1 && rayon<res_rayon){
               res_x = centerX;
               res_y = centerY;
               res_rayon = rayon; 
