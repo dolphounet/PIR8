@@ -19,4 +19,10 @@ typedef struct model_droite{
 	double ordonnee;
 } DROITE;
 
+typedef struct model_paire{
+  DROITE i;
+  DROITE j;
+  POINT intersec;
+}PAIRE;
+
 #endif

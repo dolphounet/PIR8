@@ -51,10 +51,6 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
     DROITE* droite_tab = malloc (sizeof(DROITE) * N);
     droite_tab = algo_megiddo(tab, N);
     for (i =0; i<10; i++) {
-      droite_tab[i].x_a = ((droite_tab[i].x_a - inf)*1800/(sup - inf)) + 100;
-      droite_tab[i].x_b = ((droite_tab[i].x_b - inf)*1800/(sup - inf)) + 100;
-      droite_tab[i].y_b = ((droite_tab[i].y_b - inf)*1800/(sup - inf)) + 100;
-      droite_tab[i].y_a = ((droite_tab[i].y_a - inf)*1800/(sup - inf)) + 100;
       dessinerDroite(file, droite_tab[i]);
     }
   }
