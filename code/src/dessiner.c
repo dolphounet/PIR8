@@ -23,7 +23,7 @@ char* dessinerDroite(FILE *file, DROITE d)  {
   double xa = (d.x_a*1800/(sup - inf)) + 100;
   double xb = (d.x_b*1800/(sup - inf)) + 100;
   double yb = (d.y_b*1800/(sup - inf)) + 100;
-  double ya = yb;
+  double ya = (d.y_a*1800/(sup - inf)) + 100;
   fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", xa, ya, xb, yb);
   return 0;
 }
