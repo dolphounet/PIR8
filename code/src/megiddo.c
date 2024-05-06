@@ -1,9 +1,10 @@
 #include "megiddo.h"
+#include "array.h"
 
 DROITE* creation_bissectrices(POINT* tab, int n){
   DROITE* droite_tab = malloc(n/2 * sizeof(DROITE));
   POINT midpoint;
-  for (int i = 1 ; i < n/2 ; i++){
+  for (int i = 1 ; i <= n/2 ; i++){
     midpoint.x = (tab[2*i-1].x + tab[2*i].x) / 2;
     midpoint.y = (tab[2*i-1].y + tab[2*i].y) / 2;
     droite_tab[i-1].pente = -1 / ((tab[2*i].y - tab[2*i-1].y) / (tab[2*i].x - tab[2*i-1].x));
@@ -28,17 +29,20 @@ void rotation_plan(POINT* tab, int n, double angle_m){
   }
 }
 
-DROITE* algo_megiddo(POINT* tab, int n){
-  DROITE* droite_tab = creation_bissectrices(tab, n);
-  double* angles = malloc(n/2 * sizeof(double));
-  for (int i = 0; i < n ; i++){
-    angles[i] = atan(droite_tab[i].pente);
+array calcul_angles(DROITE* droite_tab, int n){
+  array angles = make_array(n/2, double);
+  for (int i = 0; i < n/2 ; i++){
+    *grow(&angles, double) = atan(droite_tab[i].pente);
   }
 
-  qsort(angles, n/2, sizeof(double), compare);
-  double angle_m = angles[n/4];
+  return angles;
+}
 
-  rotation_plan(tab, n, angle_m);
+DROITE* algo_megiddo(POINT* tab, int n){
+  DROITE* droite_tab = creation_bissectrices(tab, n);
+  array angles = calcul_angles(droite_tab, n/2);
+  double angle_m = find_median(&angles);
 
+  free_array(&angles);
   return droite_tab;
 }

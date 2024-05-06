@@ -2,6 +2,8 @@
 #define MEGIDDO_H
 
 #include "structures.h"
+#include "array.h"
+#include "median.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
