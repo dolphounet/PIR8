@@ -12,6 +12,15 @@ char* dessinerPoint(FILE *file, POINT p, int r) {
   return codePoint;
 }
 
+void affichage_tous_les_points(POINT tab[], FILE* file , int N){
+  for (int i = 0; i < N; i++) {
+    POINT p;
+    p.x = ((tab[i].x-inf)*1800/(sup-inf))+100;
+    p.y = ((tab[i].y-inf)*1800/(sup-inf))+100;
+    dessinerPoint(file, p, 8);
+  }
+}
+
 char* dessinerCercle(FILE *file, double x, double y, double r)  {
   char* codeCercle = malloc (sizeof (*codeCercle) * 500);
   sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);

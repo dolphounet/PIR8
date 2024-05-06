@@ -3,11 +3,14 @@
 #include <math.h>
 #include "structures.h"
 #include "global.h"  
-#include "dessiner.h"
+#include "fonctions.h"
 #include "incercle.h"
+#include "dessiner.h"
 
 double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin; 
+
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
+
 
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) {
     *centerX = (p1.x + p2.x) / 2;
@@ -38,27 +41,27 @@ void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, 
     rayondessin = sqrt(pow(centerX_dessin - n_pix, 2) + pow(centerY_dessin - n_piy, 2));
 }
 
-int verification_cercle_trois_points (POINT* tab, POINT a, POINT b, POINT c){
+int tous_les_points_dans_cercle_trois_points (POINT* tab, POINT a, POINT b, POINT c){
   int inside = 1; 
   for (int i = 0; i < N; i++) {  
-    POINT d;
-    d.x = tab[i].x;
-    d.y = tab[i].y;
-    if (in_cercle_trois_points(a,b,c,d)<0) {
-      inside = 0; 
+    POINT test;
+    test.x = tab[i].x;
+    test.y = tab[i].y;
+    if (point_in_cercle_trois_points(a,b,c,test)==0) {
+      inside = 0; // EXTERIEUR
       break;
     }
   }
   return inside;
 }
 
-int verification_cercle_deux_points (POINT* tab, POINT a, POINT b){
-  int inside = 1; 
+int tous_les_points_dans_cercle(POINT* tab, double *centerX, double *centerY, double *rayon){
+  int inside = 1;
   for (int i = 0; i < N; i++) {  
     POINT d;
     d.x = tab[i].x;
     d.y = tab[i].y;
-    if (in_cercle_deux_points(a,b,d)<0) {
+    if (point_in_cercle(d, *centerX, *centerY, *rayon)==0) {
       inside = 0; 
       break;
     }
@@ -67,7 +70,6 @@ int verification_cercle_deux_points (POINT* tab, POINT a, POINT b){
 }
 
 void algo_naif (FILE *file,POINT* tab, int N){
-  printf("YES");
   for (int i = 0; i < N-1; i++) {
     POINT p;
     p.x = tab[i].x;
@@ -80,13 +82,16 @@ void algo_naif (FILE *file,POINT* tab, int N){
       printf("%.2f , %.2f \n", q.x, q.y);
       findCircle_deux_points(p, q, &centerX, &centerY, &rayon);
       //verifiation des points 
-      if (verification_cercle_deux_points(tab, p, q)== 1){
+      if (tous_les_points_dans_cercle(tab, &centerX, &centerY, &rayon)== 1){
+          res_x = centerX; 
+          res_y = centerY; 
+          res_rayon = rayon;
           dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
           return ; 
       }
     }
   }
-  
+  // On n'a pas trouvé des cercles de deux points qui entourent tous les points
   for (int i = 0; i < N-2; i++) {
     POINT p;
     p.x = tab[i].x;
@@ -99,8 +104,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
         POINT r;
         r.x = tab[k].x;
         r.y = tab[k].y;
-        double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;
-        if (d==0){
+        if(test_cercle(p,q,r)==0){
           printf("Pas de cercle possible passant par ces 3 points");
         }else{
           printf("%2f , %.2f \n", p.x, p.y);
@@ -108,7 +112,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
           printf("%.2f , %.2f \n", r.x, r.y);
           findCircle(p, q, r, &centerX, &centerY, &rayon);
           printf("centreX %.2f, centreY %.2f, rayon %.2f \n", centerX, centerY, rayon);
-          if (verification_cercle_trois_points(tab,p,q,r)== 1 && rayon<res_rayon){
+          if (rayon<res_rayon && tous_les_points_dans_cercle_trois_points(tab,p,q,r)== 1){
               res_x = centerX;
               res_y = centerY;
               res_rayon = rayon; 
@@ -123,13 +127,19 @@ void algo_naif (FILE *file,POINT* tab, int N){
   dessinerCercle(file, res_x_dessin, res_y_dessin, res_rayon_dessin);
 }
 
-void trouver_c (POINT tab[], FILE* file, int N){
-  if(N < 2) {
-    centerX = 0; 
-    centerY = 0; 
-    rayon = 0; 
+void solution_algo_naif(POINT tab[], FILE* file, int N){
+  res_rayon = 99999999;
+  if(N == 0) {
+    res_x = 0; 
+    res_y = 0; 
+    res_rayon = 0; 
   }
-  else  {
+  else if (N == 1) {
+    res_x = tab[1].x;
+    res_y = tab[1].y;
+    res_rayon = 0;
+    ///////////////////IL MANQUE LE DESSIN
+  } else {
     algo_naif(file, tab, N);
   }
 }

@@ -4,23 +4,14 @@
 #include "global.h"
 #include "structures.h"
 #include "dessiner.h"
-#include "calculs.h"
+#include "algonaif.h"
 #include "brutforce.h"
+#include "megiddo.h"
 
 FILE *file;
 int i;
 
-//Dessine les points et le cercle dans le SVG
-void ecritureSVG(POINT tab[], FILE* file , int N){
-  for (int i = 0; i < N; i++) {
-    POINT p;
-    p.x = ((tab[i].x-inf)*1800/(sup-inf))+100;
-    p.y = ((tab[i].y-inf)*1800/(sup-inf))+100;
-    dessinerPoint(file, p, 8);
-  }
-}
-
-void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab){
+void GenerationFichierSVG(POINT* tab , int N, int choix){
   //creation et ouverture du fichier
   remove("Points.svg");
   file= fopen("Points.svg", "w");
@@ -40,12 +31,12 @@ void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab){
   fprintf(file, "<text x=\"100\" y=\"1900\" font-family=\"Arial\" font-size=\"20\">%d</text>\n", sup);    
 
  
-  //ecriture du programme
-  ecritureSVG(tab, file, N);
+  //affichage des points
+  affichage_tous_les_points(tab, file, N);
   if(choix == 1) {
-    trouver_c(tab, file, N);
+    solution_algo_naif(tab, file, N);
   }
-  else if(choix == 2) {
+  else if(choix == 3) {
     DROITE d;
     d.x_a = xmin - inf;
     d.x_b = xmax - inf;
@@ -56,7 +47,9 @@ void GenerationFichierSVG(POINT* tab , int N, int choix, DROITE* droite_tab){
     dessinerDroite(file, d);
     recherche(tab, d);
   }
-  else if(choix == 3) {
+  else if(choix == 4) {
+    DROITE* droite_tab = malloc (sizeof(DROITE) * N);
+    droite_tab = algo_megiddo(tab, N);
     for (i =0; i<10; i++) {
       droite_tab[i].x_a = ((droite_tab[i].x_a - inf)*1800/(sup - inf)) + 100;
       droite_tab[i].x_b = ((droite_tab[i].x_b - inf)*1800/(sup - inf)) + 100;
