@@ -1,5 +1,5 @@
 #include "median.h"
-
+/*
 static int cmpx(const void *lhs, const void *rhs)
 {
     return *(double*)lhs < *(double*)rhs ? -1 : 1;
@@ -73,3 +73,4 @@ double find_median(array *a)
 {
     return find_rank(a->length/2, a);
 }
+*/

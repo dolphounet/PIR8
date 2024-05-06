@@ -78,14 +78,13 @@ void algo_naif (FILE *file,POINT* tab, int N){
       POINT q;
       q.x = tab[j].x;
       q.y = tab[j].y;
-      printf("%2f , %.2f \n", p.x, p.y);
-      printf("%.2f , %.2f \n", q.x, q.y);
       findCircle_deux_points(p, q, &centerX, &centerY, &rayon);
       //verifiation des points 
       if (tous_les_points_dans_cercle(tab, &centerX, &centerY, &rayon)== 1){
           res_x = centerX; 
           res_y = centerY; 
           res_rayon = rayon;
+          printf("\n\ncentreX %.2f, centreY %.2f, rayon %.2f \n\n", centerX, centerY, rayon);
           dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
           return ; 
       }
@@ -105,13 +104,13 @@ void algo_naif (FILE *file,POINT* tab, int N){
         r.x = tab[k].x;
         r.y = tab[k].y;
         if(test_cercle(p,q,r)==0){
-          printf("Pas de cercle possible passant par ces 3 points");
+          printf("Pas de cercle possible passant par p,q,r\n\n");
         }else{
           printf("%2f , %.2f \n", p.x, p.y);
           printf("%.2f , %.2f \n", q.x, q.y);
           printf("%.2f , %.2f \n", r.x, r.y);
           findCircle(p, q, r, &centerX, &centerY, &rayon);
-          printf("centreX %.2f, centreY %.2f, rayon %.2f \n", centerX, centerY, rayon);
+          printf("centreX %.2f, centreY %.2f, rayon %.2f \n\n", centerX, centerY, rayon);
           if (rayon<res_rayon && tous_les_points_dans_cercle_trois_points(tab,p,q,r)== 1){
               res_x = centerX;
               res_y = centerY;
@@ -138,7 +137,7 @@ void solution_algo_naif(POINT tab[], FILE* file, int N){
     res_x = tab[1].x;
     res_y = tab[1].y;
     res_rayon = 0;
-    ///////////////////IL MANQUE LE DESSIN
+    dessinerCercle(file, ((res_x-inf)*1800/(sup-inf))+100, ((res_y-inf)*1800/(sup-inf))+100, 0);
   } else {
     algo_naif(file, tab, N);
   }

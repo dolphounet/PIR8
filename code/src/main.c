@@ -10,6 +10,10 @@
 #include "welz.h"
 #include "megiddo.h"
 #include "algonaif.h"
+#include "dessiner.h"
+#include "array.h"
+#include "median.h"
+#include "dessiner.h"
 
 
 int N, choix, xmin, xmax, ymin, ymax, inf, sup;

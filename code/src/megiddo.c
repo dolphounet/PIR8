@@ -1,6 +1,7 @@
 #include "megiddo.h"
-#include "array.h"
+//#include "array.h"
 
+/*
 DROITE* creation_bissectrices(POINT* tab, int n){
   DROITE* droite_tab = malloc(n/2 * sizeof(DROITE));
   POINT midpoint;
@@ -39,9 +40,7 @@ array calcul_angles(DROITE* droite_tab, int n){
 }
 
 PAIRE* creation_paires(double angle_m, DROITE* droite_tab, int n){
-  /*
-   * WIP - Probablement pas fonctionnel
-   */
+  
   array positifs = make_array(n/4, DROITE);
   array negatifs = make_array(n/4, DROITE);
   for (int i = 0; i < n/2 ; i++){
@@ -93,3 +92,5 @@ DROITE* algo_megiddo(POINT* tab, int n){
   free_array(&angles);
   return droite_tab;
 }
+
+*/
