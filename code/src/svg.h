@@ -7,6 +7,7 @@
 #include "dessiner.h"
 #include "algonaif.h"
 #include "megiddo.h"
+
 //RENDU VISUEL
 void GenerationFichierSVG(POINT* tab , int N, int choix);
 

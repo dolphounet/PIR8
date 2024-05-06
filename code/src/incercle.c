@@ -3,7 +3,6 @@
 #include <math.h>
 #include "structures.h"
 #include "global.h"
-#include "dessiner.h"
 
 int determinant (int a, int b, int c, int d ){
   return a * d - b * c; 

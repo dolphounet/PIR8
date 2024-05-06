@@ -1,16 +1,15 @@
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "structures.h"
 #include "global.h"  
-#include "fonctions.h"
 #include "incercle.h"
+#include "fonctions.h"
 #include "dessiner.h"
 
+
 double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin; 
-
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
-
 
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) {
     *centerX = (p1.x + p2.x) / 2;
@@ -42,6 +41,7 @@ void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, 
 }
 
 int tous_les_points_dans_cercle_trois_points (POINT* tab, POINT a, POINT b, POINT c){
+  //verifier si tous les points sont dans un cercle définit par trois points
   int inside = 1; 
   for (int i = 0; i < N; i++) {  
     POINT test;
@@ -56,6 +56,7 @@ int tous_les_points_dans_cercle_trois_points (POINT* tab, POINT a, POINT b, POIN
 }
 
 int tous_les_points_dans_cercle(POINT* tab, double *centerX, double *centerY, double *rayon){
+  ///verifier si tous les points points sont dans un cercle definit par deux points
   int inside = 1;
   for (int i = 0; i < N; i++) {  
     POINT d;
@@ -70,6 +71,7 @@ int tous_les_points_dans_cercle(POINT* tab, double *centerX, double *centerY, do
 }
 
 void algo_naif (FILE *file,POINT* tab, int N){
+  // ON teste les combinaisons de 2 et 3 points 
   for (int i = 0; i < N-1; i++) {
     POINT p;
     p.x = tab[i].x;
