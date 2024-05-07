@@ -47,18 +47,15 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
     dessinerDroite(file, d);
     recherche(tab, d);
   }
-  /*
   else if(choix == 4) {
     
-    DROITE* droite_tab = malloc (sizeof(DROITE) * N);
+    DROITE* droite_tab = algo_megiddo(tab, N);
     
-    droite_tab = algo_megiddo(tab, N);
-    for (i =0; i<10; i++) {
+    for (i = 0; i<(N/2 + 2); i++) {
       dessinerDroite(file, droite_tab[i]);
     }
     
   }
-  */
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");
   fclose(file);

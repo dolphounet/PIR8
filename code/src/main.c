@@ -54,7 +54,7 @@ int main(int argc, char* argv[]){
       GenerationFichierSVG(tab, N, choix);
       return 0;
     }else {
-      printf("\nRéponse incorrecte, répondez par 1, 2 ou 3 : ");
+      printf("\nRéponse incorrecte, répondez par 1, 2, 3 ou 4 : ");
     }
   }
  }   

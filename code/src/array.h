@@ -15,7 +15,7 @@ typedef struct array {
     void *start;
 } array;
 
-/*
+
 typedef struct iter {
     array *a;
     ptrdiff_t idx;
@@ -281,5 +281,5 @@ static array split(array *a, size_t size)
     free_array(&rest);
     return bs;
 }
-*/
+
 #endif
