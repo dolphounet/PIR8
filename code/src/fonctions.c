@@ -5,11 +5,6 @@
 #include "global.h"
 
 
-int test_cercle(POINT p, POINT q, POINT r){
-    double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;
-    if (d>=0){
-        return 1; //INTERIEUR
-    }else{
-        return 0; //EXTERIEUR 
-    }
+double distance(POINT p1, POINT p2) {
+    return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }

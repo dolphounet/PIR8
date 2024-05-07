@@ -7,6 +7,6 @@
 #include "structures.h"
 #include "global.h"
 
-int test_cercle(POINT p, POINT q, POINT r);
+double distance(POINT p1, POINT p2);
 
 #endif

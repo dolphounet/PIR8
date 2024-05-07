@@ -21,9 +21,13 @@ void affichage_tous_les_points(POINT tab[], FILE* file , int N){
   }
 }
 
-char* dessinerCercle(FILE *file, double x, double y, double r)  {
+char* dessinerCercle(FILE *file, double x, double y, double r, int algo)  {
   char* codeCercle = malloc (sizeof (*codeCercle) * 500);
-  sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
+  if (algo == 1) {
+    sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
+  }else if (algo == 2){
+    sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"blue\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
+  }
   fprintf(file,"%s\n", codeCercle);
   return codeCercle;
 }

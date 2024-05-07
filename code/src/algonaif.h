@@ -11,6 +11,8 @@
 #include "dessiner.h"
 
 
+char* dessinerCercle_naif(FILE *file, double x, double y, double r);
+int test_cercle_naif(POINT p, POINT q, POINT r);
 
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) ;
 void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, double *rayon);

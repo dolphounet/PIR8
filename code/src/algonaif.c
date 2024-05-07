@@ -11,6 +11,22 @@
 double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin; 
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
 
+char* dessinerCercle_naif(FILE *file, double x, double y, double r)  {
+  char* codeCercle = malloc (sizeof (*codeCercle) * 500);
+  sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
+  fprintf(file,"%s\n", codeCercle);
+  return codeCercle;
+}
+
+int test_cercle_naif(POINT p, POINT q, POINT r){
+    double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;
+    if (d>=0){
+        return 1; //INTERIEUR
+    }else{
+        return 0; //EXTERIEUR 
+    }
+}
+
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) {
     *centerX = (p1.x + p2.x) / 2;
     *centerY = (p1.y + p2.y) / 2;
@@ -87,7 +103,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
           res_y = centerY; 
           res_rayon = rayon;
           printf("\n\ncentreX %.2f, centreY %.2f, rayon %.2f \n\n", centerX, centerY, rayon);
-          dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
+          dessinerCercle_naif(file, centerX_dessin, centerY_dessin, rayondessin);
           return ; 
       }
     }
@@ -105,7 +121,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
         POINT r;
         r.x = tab[k].x;
         r.y = tab[k].y;
-        if(test_cercle(p,q,r)==0){
+        if(test_cercle_naif(p,q,r)==0){
           printf("Pas de cercle possible passant par p,q,r\n\n");
         }else{
           printf("%2f , %.2f \n", p.x, p.y);
@@ -125,7 +141,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
       }
     }
   }
-  dessinerCercle(file, res_x_dessin, res_y_dessin, res_rayon_dessin);
+  dessinerCercle_naif(file, res_x_dessin, res_y_dessin, res_rayon_dessin);
 }
 
 void solution_algo_naif(POINT tab[], FILE* file, int N){
@@ -139,7 +155,6 @@ void solution_algo_naif(POINT tab[], FILE* file, int N){
     res_x = tab[1].x;
     res_y = tab[1].y;
     res_rayon = 0;
-    dessinerCercle(file, ((res_x-inf)*1800/(sup-inf))+100, ((res_y-inf)*1800/(sup-inf))+100, 0);
   } else {
     algo_naif(file, tab, N);
   }

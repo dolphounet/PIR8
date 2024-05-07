@@ -11,6 +11,8 @@ double cx, cy, cr;
 int nb_point, n, j;
 CERCLE res_bf;
 
+double centery_dessin, centerx_dessin, rayondessinn,centerx, centery, rayonn;
+
 // Calcul des coordonnées du centre selon le point (x,y)
 double xycentre(DROITE d, double x, double y)
 {
@@ -52,8 +54,8 @@ int countPointsInCircle(POINT *tab, double x, double y, double r)
     if(nb_point < n) {
             nb_point = n;
             rayon = r;
-            centerX = x;
-            centerY = y;
+            centerx = x;
+            centery = y;
             j = i;
         }
         else if(nb_point == n) {
@@ -61,19 +63,19 @@ int countPointsInCircle(POINT *tab, double x, double y, double r)
             {
                 nb_point = n;
                 rayon = r;
-                centerX = x;
-                centerY = y;
+                centerx = x;
+                centery = y;
                 j = i;
             }
         }
 } */
 
 void formatSVG(POINT *tab) {
-    centerX_dessin = ((centerX-inf)*1800/(sup-inf))+100;
-    centerY_dessin = ((centerY-inf)*1800/(sup-inf))+100;
+    centerx_dessin = ((centerx-inf)*1800/(sup-inf))+100;
+    centery_dessin = ((centery-inf)*1800/(sup-inf))+100;
     double x_des = ((tab[j].x-inf)*1800/(sup-inf))+100;
     double y_des = ((tab[j].y-inf)*1800/(sup-inf))+100;
-    rayondessin = sqrt(pow(centerX_dessin - x_des, 2) + pow(centerY_dessin - y_des, 2));
+    rayondessinn = sqrt(pow(centerx_dessin - x_des, 2) + pow(centery_dessin - y_des, 2));
 }
 
 void recherche(POINT *tab, DROITE d)
@@ -81,11 +83,11 @@ void recherche(POINT *tab, DROITE d)
     px = tab[0].x;
     py = tab[0].y;
     // initialise le rayon potentiel
-    rayon = xycentre(d, px, py);
-    centerX = cx;
-    centerY = cy;
-    nb_point = countPointsInCircle(tab, centerX, centerY, rayon);
-    printf("\n%f %d\n",rayon,nb_point);
+    rayonn = xycentre(d, px, py);
+    centerx = cx;
+    centery = cy;
+    nb_point = countPointsInCircle(tab, centerx, centery, rayonn);
+    printf("\n%f %d\n",rayonn,nb_point);
     for (int i = 1; i < N; i++)
     {
         r = xycentre(d, tab[i].x, tab[i].y);
@@ -94,26 +96,26 @@ void recherche(POINT *tab, DROITE d)
         n = countPointsInCircle(tab, x, y, r);
         if(nb_point < n) {
             nb_point = n;
-            rayon = r;
-            centerX = x;
-            centerY = y;
+            rayonn = r;
+            centerx = x;
+            centery = y;
             j = i;
         }
         else if(nb_point == n) {
-            if(r <= rayon)
+            if(r <= rayonn)
             {
                 nb_point = n;
-                rayon = r;
-                centerX = x;
-                centerY = y;
+                rayonn = r;
+                centerx = x;
+                centery = y;
                 j = i;
             }
         }        
         printf("%f %d\n",r,n);
     }
     printf("\nNombre de points dans le cercle : %d/%d", nb_point, N);
-    printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerX, centerY, rayon);
+    printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerx, centery, rayonn);
     formatSVG(tab);
-    dessinerCercle(file, centerX_dessin, centerY_dessin, rayondessin);
-    dessinerCentre(file, centerX_dessin, centerY_dessin);
+    dessinerCercle(file, centerx_dessin, centery_dessin, rayondessinn,1);
+    dessinerCentre(file, centerx_dessin, centery_dessin);
 }
