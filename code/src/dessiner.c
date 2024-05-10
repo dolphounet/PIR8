@@ -33,10 +33,15 @@ char* dessinerCercle(FILE *file, double x, double y, double r, int algo)  {
 }
 
 char* dessinerDroite(FILE *file, DROITE d)  {
+  printf("Dessine la droite %f %f %f %f, pente:%f\n", d.x_a, d.y_a, d.x_b, d.y_b, d.pente);
   double xa = (d.x_a*1800/(sup - inf)) + 100;
   double xb = (d.x_b*1800/(sup - inf)) + 100;
   double yb = (d.y_b*1800/(sup - inf)) + 100;
   double ya = (d.y_a*1800/(sup - inf)) + 100;
+  if (d.pente == HUGE_VAL || d.pente == (- HUGE_VAL)){
+    fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"red\" stroke-width=\"5\" />\n", xa, ya, xb, yb);
+    return 0;
+  }
   fprintf(file, "<line x1=\"%f\" y1=\"%f\" x2=\"%f\" y2=\"%f\" stroke=\"blue\" stroke-width=\"5\" />\n", xa, ya, xb, yb);
   return 0;
 }

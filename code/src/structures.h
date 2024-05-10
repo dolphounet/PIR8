@@ -17,11 +17,13 @@ typedef struct model_droite{
 	double y_a, y_b;
 	double pente;
 	double ordonnee;
+  POINT* i;
+  POINT* j;
 } DROITE;
 
 typedef struct model_paire{
-  DROITE i;
-  DROITE j;
+  DROITE* i;
+  DROITE* j;
   POINT intersec;
 }PAIRE;
 
