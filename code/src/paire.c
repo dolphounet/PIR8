@@ -48,11 +48,11 @@ void formatSVG(POINT *tab)
 
 void pairePoint(POINT *tab, DROITE d)
 {
-    for (int i = 0; i < N-1; i++)
+    for (int i = 0; i < N; i++)
     {
         p.x_a = tab[i].x;
         p.y_a = tab[i].y;
-        for (int j = i+1; j < N; j++)
+        for (int j = 0; j < N; j++)
         {
             p.x_b = tab[j].x;
             p.y_b = tab[j].y;
@@ -60,8 +60,8 @@ void pairePoint(POINT *tab, DROITE d)
             p.pente = (p.y_b - p.y_a) / (p.x_b - p.x_a);
             p.ordonnee = p.y_a - p.pente * p.x_a;
             // Calcul du milieu de AB par lequel passe la médiatrice
-            xm = fabs(p.x_a - p.x_b)/2;
-            ym = fabs(p.y_a - p.y_b)/2;
+            xm = fabs(p.x_a + p.x_b)/2;
+            ym = fabs(p.y_a + p.y_b)/2;
             mediatrice(p, xm, ym);
             r = intersection(d, med);
             x = cx;
