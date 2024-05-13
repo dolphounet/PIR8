@@ -4,15 +4,12 @@ CFLAGS= -Wall
 
 #Commandes
 
-all: generateur solveur-prototype
+all: solveur
 
 ###
 
-generateur: generateur.c
-	$(CC) $(CFLAGS) $< -o $@
-
-solveur: solveur-prototype.c  
-	$(CC) $(CFLAGS) $^ -lm -o $@
+solveur: solveur.c median.c median.h
+	$(CC) $(CFLAGS) $^ -lSDL2 -lm -o  $@
 
 
 #Nettoyage
@@ -20,4 +17,4 @@ clean:
 	rm -f *.o
 	rm -f *.svg
 	rm -f *~
-	rm generateur solveur-prototype
+	rm solveur
