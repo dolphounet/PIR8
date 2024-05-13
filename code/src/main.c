@@ -17,6 +17,7 @@
 
 
 int N, choix, xmin, xmax, ymin, ymax, inf, sup;
+double res_rayon;
 
 int main(int argc, char* argv[]){
 
@@ -46,7 +47,7 @@ int main(int argc, char* argv[]){
   coord_aleatoires(tab);
   
   /* Choix de l'algoritme */
-  printf("\n\nQuel algorithme voulez-vous utiliser ?\n1. Algo naif\n2. Welz\n3. Force brute\n\4. Algo Meggido\nRépondez par 1, 2, 3 ou 4 : ");
+  printf("\n\nQuel algorithme voulez-vous utiliser ?\n1. Algo naif\n2. Welz\n3. Force brute\n4. Algo Meggido\nRépondez par 1, 2, 3 ou 4 : ");
 
   while(1) {
     scanf("%d", &choix);

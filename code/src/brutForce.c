@@ -4,14 +4,16 @@
 #include "structures.h"
 #include "global.h"
 #include "dessiner.h"
+#include "paire.h"
 
 double px, py;
 double x, y, r;
 double cx, cy, cr;
-int nb_point, n, j;
+int nb_point, n, k;
 CERCLE res_bf;
 
-double centery_dessin, centerx_dessin, rayondessinn,centerx, centery, rayonn;
+double centery_dessin, centerx_dessin, rayondessinn, centerx, centery, rayonn;
+
 
 // Calcul des coordonnées du centre selon le point (x,y)
 double xycentre(DROITE d, double x, double y)
@@ -50,33 +52,10 @@ int countPointsInCircle(POINT *tab, double x, double y, double r)
     return count;
 }
 
-/* void meilleurCentre(int nb_point, int n, double rayon, double r, int i) {
-    if(nb_point < n) {
-            nb_point = n;
-            rayon = r;
-            centerx = x;
-            centery = y;
-            j = i;
-        }
-        else if(nb_point == n) {
-            if(r <= rayon)
-            {
-                nb_point = n;
-                rayon = r;
-                centerx = x;
-                centery = y;
-                j = i;
-            }
-        }
-} */
 
-void formatSVG(POINT *tab) {
-    centerx_dessin = ((centerx-inf)*1800/(sup-inf))+100;
-    centery_dessin = ((centery-inf)*1800/(sup-inf))+100;
-    double x_des = ((tab[j].x-inf)*1800/(sup-inf))+100;
-    double y_des = ((tab[j].y-inf)*1800/(sup-inf))+100;
-    rayondessinn = sqrt(pow(centerx_dessin - x_des, 2) + pow(centery_dessin - y_des, 2));
-}
+
+
+
 
 void recherche(POINT *tab, DROITE d)
 {
@@ -87,7 +66,7 @@ void recherche(POINT *tab, DROITE d)
     centerx = cx;
     centery = cy;
     nb_point = countPointsInCircle(tab, centerx, centery, rayonn);
-    printf("\n%f %d\n",rayonn,nb_point);
+    printf("\n%f %d\n",rayonn, nb_point);
     for (int i = 1; i < N; i++)
     {
         r = xycentre(d, tab[i].x, tab[i].y);
@@ -99,7 +78,8 @@ void recherche(POINT *tab, DROITE d)
             rayonn = r;
             centerx = x;
             centery = y;
-            j = i;
+            k = i;
+            printf("%f %d\n", r, n);
         }
         else if(nb_point == n) {
             if(r <= rayonn)
@@ -108,14 +88,10 @@ void recherche(POINT *tab, DROITE d)
                 rayonn = r;
                 centerx = x;
                 centery = y;
-                j = i;
+                k = i;
+                printf("%f %d\n", r, n);
             }
         }        
-        printf("%f %d\n",r,n);
     }
-    printf("\nNombre de points dans le cercle : %d/%d", nb_point, N);
-    printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerx, centery, rayonn);
-    formatSVG(tab);
-    dessinerCercle(file, centerx_dessin, centery_dessin, rayondessinn,1);
-    dessinerCentre(file, centerx_dessin, centery_dessin);
+    pairePoint(tab, d);
 }

@@ -5,7 +5,7 @@
 #include "structures.h"
 #include "dessiner.h"
 #include "algonaif.h"
-#include "brutforce.h"
+#include "brutForce.h"
 #include "megiddo.h"
 #include "welz.h"
 
@@ -39,7 +39,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
   }else if (choix == 2){
     solution_welz(tab, file, N);
   }else if(choix == 3) {
-    /*DROITE d;
+    DROITE d;
     d.x_a = xmin - inf;
     d.x_b = xmax - inf;
     d.y_b = (ymax - inf)/2;
@@ -47,7 +47,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
     d.pente = (d.y_b - d.y_a) / (d.x_b - d.x_a);
     d.ordonnee = d.y_a - d.pente * d.x_a;
     dessinerDroite(file, d);
-    recherche(tab, d);*/
+    recherche(tab, d);
   }
   else if(choix == 4) {
     
