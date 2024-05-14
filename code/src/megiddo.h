@@ -8,6 +8,6 @@
 #include <stdio.h>
 #include <math.h>
 
-DROITE2* algo_megiddo(POINT* tab, int n);
+int algo_megiddo(POINT* tab, int n);
 
 #endif

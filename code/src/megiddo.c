@@ -1,18 +1,10 @@
 #include "megiddo.h"
 #include "array.h"
-#include "incercle.h"
 #include <math.h>
 #include <stdio.h>
 
-int orientation(POINT c, DROITE2 d){
-  int deter = 0;
-  //int deter = determinant(d.x_a - c.x, d.y_a - c.y, d.x_b - c.x, d.y_b - c.y);
-  if (deter > 0){
-    return 1;
-  }else if (deter < 0){
-    return -1;
-  }
-  return 0;
+int orientation(POINT a, POINT b, DROITE2 d){
+  return ((d.a*a.x + d.b*a.y + d.c < 0) == (d.a*b.x + d.b*b.y + d.c < 0));
 }
 
 DROITE2* creation_bissectrices(POINT* tab, int n){
@@ -24,13 +16,13 @@ DROITE2* creation_bissectrices(POINT* tab, int n){
     midpoint.y = (tab[2*i-1].y + tab[2*i].y) / 2;
     pente = -1 / ((tab[2*i].y - tab[2*i-1].y) / (tab[2*i].x - tab[2*i-1].x));
     if (pente == HUGE_VAL || pente == (- HUGE_VAL)){
-      droite_tab[i-1].a = 1;
+      droite_tab[i-1].a = -1;
       droite_tab[i-1].b = 0;
       droite_tab[i-1].c = midpoint.x;
     }
     else {
       droite_tab[i-1].a = pente;
-      droite_tab[i-1].b = 1;
+      droite_tab[i-1].b = -1;
       droite_tab[i-1].c = midpoint.y - midpoint.x * pente;
 
     }
@@ -102,20 +94,25 @@ PAIRE* creation_paires(double angle_m, DROITE2* droite_tab, int n){
   return paires;
 }
 
-int suppr_point(POINT* tab, int n, int i){
+void suppr_point(POINT* tab, int n, int i){
   for (int j = i; j < n-1; j++){
     tab[j] = tab[j+1];
   }
-  return n-1;
 }
 
-DROITE2* algo_megiddo(POINT* tab, int n){
+POINT rotation(POINT p, double angle_m){
+  POINT p_rot;
+  p_rot.x = p.x * cos(angle_m) - p.y * sin(angle_m);
+  p_rot.y = p.x * sin(angle_m) + p.y * cos(angle_m);
+  return p_rot;
+}
+
+int algo_megiddo(POINT* tab, int n){
   int faisable = 1;
-  DROITE2* droite_tab;
 
   while (faisable) {
     
-    droite_tab = creation_bissectrices(tab, n);
+    DROITE2* droite_tab = creation_bissectrices(tab, n);
 
     array angles = calcul_angles(droite_tab, n);
     double angle_m = find_median(&angles);
@@ -163,77 +160,127 @@ DROITE2* algo_megiddo(POINT* tab, int n){
     droite_tab[n/2 +1] = y;
     
     faisable = 0;
-    int orient_x = 1;
+    int nb_suppr = 0;
     int orient_y = 1;
+    POINT p_rot_m = rotation(median, angle_m);
     for (int i = 0; i < n/4; i++){
-      if (orient_x == 1 && orient_y == 1 && paires[i].intersec.x < median.x && paires[i].intersec.y < median.y){
-        if (atan(paires[i].i->a) < angle_m){
-          if (orientation(tab[paires[i].i->i], *paires[i].i)){
-            n = suppr_point(tab, n, paires[i].i->i);
+      if (paires[i].i->b == paires[i].j->b){
+        POINT p_rot_i = rotation(tab[paires[i].i->i], angle_m);
+        POINT p_rot_j = rotation(tab[paires[i].j->i], angle_m);
+        if (orient_y == 1 && p_rot_i.y > p_rot_m.y) {
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
           }else {
-            n = suppr_point(tab, n, paires[i].i->j);
+            suppr_point(tab, n, paires[i].i->j);
           }
-        }else {
-          if (orientation(tab[paires[i].j->i], *paires[i].j)){
-            n = suppr_point(tab, n, paires[i].j->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].j->j);
-          }
+          nb_suppr++;
         }
+        else if (orient_y == -1 && p_rot_i.y < p_rot_m.y) {
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
+          }else {
+            suppr_point(tab, n, paires[i].i->j);
+          }
+          nb_suppr++;
+        }
+        if (orient_y == 1 && p_rot_j.y > p_rot_m.y) {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
+        else if (orient_y == -1 && p_rot_j.y < p_rot_m.y) {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
+      }  
+    }
 
-      }
-      else if (orient_x == 1 && orient_y == -1 && paires[i].intersec.x < median.x && paires[i].intersec.y > median.y){
-        if (atan(paires[i].i->a) < angle_m){
-          if (orientation(tab[paires[i].i->i], *paires[i].i)){
-            n = suppr_point(tab, n, paires[i].i->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].i->j);
-          }
-        }else {
-          if (orientation(tab[paires[i].j->i], *paires[i].j)){
-            n = suppr_point(tab, n, paires[i].j->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].j->j);
-          }
-        }
-      }
-      else if (orient_x == -1 && orient_y == 1 && paires[i].intersec.x > median.x && paires[i].intersec.y < median.y){ 
-        if (atan(paires[i].i->a) < angle_m){
-          if (orientation(tab[paires[i].i->i], *paires[i].i)){
-            n = suppr_point(tab, n, paires[i].i->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].i->j);
-          }
-        }else {
-          if (orientation(tab[paires[i].j->i], *paires[i].j)){
-            n = suppr_point(tab, n, paires[i].j->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].j->j);
-          }
-        }
-      }
-      else if (orient_x == -1 && orient_y == -1 && paires[i].intersec.x > median.x && paires[i].intersec.y > median.y){
-        if (atan(paires[i].i->a) < angle_m){
-          if (orientation(tab[paires[i].i->i], *paires[i].i)){
-            n = suppr_point(tab, n, paires[i].i->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].i->j);
-          }
-        }else {
-          if (orientation(tab[paires[i].j->i], *paires[i].j)){
-            n = suppr_point(tab, n, paires[i].j->i);
-          }else {
-            n = suppr_point(tab, n, paires[i].j->j);
-          }
-        }
+    int orient_x = 1;
 
+    for (int i = 0; i < n/4; i++){
+      POINT p_rot = rotation(paires[i].intersec, angle_m);
+      if (orient_x == 1 && orient_y == 1 && p_rot.x < p_rot_m.x && p_rot.y < p_rot_m.y){
+        if (atan(paires[i].i->a) < angle_m){
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
+          }else {
+            suppr_point(tab, n, paires[i].i->j);
+          }
+          nb_suppr++;
+        }else {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
+      }
+      else if (orient_x == 1 && orient_y == -1 && p_rot.x < p_rot_m.x && p_rot.y > p_rot_m.y){
+        if (atan(paires[i].i->a) > angle_m){
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
+          }else {
+            suppr_point(tab, n, paires[i].i->j);
+          }
+          nb_suppr++;
+        }else {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
+      }
+      else if (orient_x == -1 && orient_y == 1 && p_rot.x > p_rot_m.x && p_rot.y < p_rot_m.y){ 
+        if (atan(paires[i].i->a) > angle_m){
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
+          }else {
+            suppr_point(tab, n, paires[i].i->j);
+          }
+          nb_suppr++;
+        }else {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
+      }
+      else if (orient_x == -1 && orient_y == -1 && p_rot.x > p_rot_m.x && p_rot.y > p_rot_m.y){
+        if (atan(paires[i].i->a) < angle_m){
+          if (orientation(tab[paires[i].i->i], median, *paires[i].i)){
+            suppr_point(tab, n, paires[i].i->i);
+          }else {
+            suppr_point(tab, n, paires[i].i->j);
+          }
+          nb_suppr++;
+        }else {
+          if (orientation(tab[paires[i].j->i], median, *paires[i].j)){
+            suppr_point(tab, n, paires[i].j->i);
+          }else {
+            suppr_point(tab, n, paires[i].j->j);
+          }
+          nb_suppr++;
+        }
       }
     }
+    n = n-nb_suppr;
     free_array(&xs);
     free_array(&ys);
     free_array(&angles);
-
+    free(droite_tab);
   }
-  return droite_tab;
+  return 0;
 }
 
