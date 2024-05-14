@@ -148,7 +148,7 @@ void solver(){
     printf("Valeur de g : %f\n", gmax);
 
     int *indices = findIndices(x_med, listePoints, estGarde, N, gmax, &tailleI);
-    printf("Points sur le cercle : ");
+    printf("Numeros des oints sur le cercle : ");
     for (int i = 0; i < tailleI; ++i) {
         printf("%d \n", indices[i]+1);
     }
