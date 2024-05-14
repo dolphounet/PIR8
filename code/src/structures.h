@@ -26,10 +26,15 @@ typedef struct model_convex{
 	double pente; 
 } CONVEX;
 
+typedef struct model_droite2{
+  double a, b, c; // ax + by + c = 0
+  int i;
+  int j;
+} DROITE2;
 
 typedef struct model_paire{
-  DROITE* i;
-  DROITE* j;
+  DROITE2* i;
+  DROITE2* j;
   POINT intersec;
 }PAIRE;
 
