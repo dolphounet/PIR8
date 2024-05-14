@@ -6,7 +6,7 @@
 
 #include "median.h"
 
-int N=11; // Nombre de points
+int N=20; // Nombre de points
 int D=10; //Distance max à l'origine
 double epsilon=0.0001; // Valeur de l'erreur prise pour la comparaison des distances des points au centre
 
@@ -60,7 +60,7 @@ double g(double x, Point listePoints[], int estGarde[], int N){
     return gmax;
 }
 
-int* findIndices(double x_med, Point* listePoints, int N, double gmax, int* taille) {
+int* findIndices(double x_med, Point* listePoints, int estGarde[], int N, double gmax, int* taille) {
     int* indices = malloc(N * sizeof(int));
     if (indices == NULL) {
         printf("Erreur d'allocation de mémoire.\n");
@@ -69,9 +69,11 @@ int* findIndices(double x_med, Point* listePoints, int N, double gmax, int* tail
 
     int count = 0;
     for (int j = 0; j < N; j++) {
-        if (gmax-epsilon < pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) && pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) < gmax+epsilon) {
-            indices[count] = j;
-            count++;
+        if (estGarde[j]){
+            if (gmax-epsilon < pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) && pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) < gmax+epsilon) {
+                indices[count] = j;
+                count++;
+            }
         }
     }
 
@@ -86,7 +88,7 @@ int* findIndices(double x_med, Point* listePoints, int N, double gmax, int* tail
     return indices;
 }
 
-int main() {
+void solver(){
     // Initialisation des points
     int P=(int)floor(N/2); // Nombre de paires possibles
     int tailleI = N;
@@ -145,8 +147,8 @@ int main() {
     double gmax = g(x_med, listePoints, estGarde, N);
     printf("Valeur de g : %f\n", gmax);
 
-    int *indices = findIndices(x_med, listePoints, N, gmax, &tailleI);
-    printf("Points gardés : ");
+    int *indices = findIndices(x_med, listePoints, estGarde, N, gmax, &tailleI);
+    printf("Points sur le cercle : ");
     for (int i = 0; i < tailleI; ++i) {
         printf("%d \n", indices[i]+1);
     }
@@ -169,11 +171,17 @@ int main() {
         }
     }
 
+    printf("inf : %d, sup : %d\n", inf, sup);
+
     if (inf == 0 && sup == 0){ // Si les points de I ne sont pas tous à droite ou tous à gauche de x_med, on a trouvé le centre
         printf("Centre trouvé : (%f, 0) et le rayon est de %f\n", x_med, sqrt(gmax));
     }
 
     // Libération de la mémoire
     free(indices);
+}
+
+int main() {
+    solver();
     return 0;
 }
