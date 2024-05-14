@@ -8,6 +8,7 @@
 
 int N=11; // Nombre de points
 int D=10; //Distance max à l'origine
+double epsilon=0.0001; // Valeur de l'erreur prise pour la comparaison des distances des points au centre
 
 // Définition de la structure Point
 typedef struct {
@@ -42,23 +43,53 @@ double g(double x, Point listePoints[], int estGarde[], int N){
     double gi;
     do {
         gmax = pow(x-listePoints[i].x, 2) + pow(listePoints[i].y, 2);
+        printf("gmax : %f, point numero : %d\n", gmax, i+1);
         i+=1;
     } while (estGarde[i] == 0 && i < N);
 
     for (int j = i; j < N; ++j) {
         if (estGarde[j] == 1){
             gi = pow(x-listePoints[j].x, 2) + pow(listePoints[j].y, 2);
+            printf("gi : %f, point numero : %d\n", gi, j+1);
             if (gi > gmax){
                 gmax = gi;
+                printf("gmax : %f, point numero : %d\n", gmax, j+1);
             }
         }
     }
     return gmax;
 }
 
+int* findIndices(double x_med, Point* listePoints, int N, double gmax, int* taille) {
+    int* indices = malloc(N * sizeof(int));
+    if (indices == NULL) {
+        printf("Erreur d'allocation de mémoire.\n");
+        exit(1);
+    }
+
+    int count = 0;
+    for (int j = 0; j < N; j++) {
+        if (gmax-epsilon < pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) && pow(x_med - listePoints[j].x, 2) + pow(listePoints[j].y, 2) < gmax+epsilon) {
+            indices[count] = j;
+            count++;
+        }
+    }
+
+    // Réduire la taille du tableau à la taille réelle
+    indices = realloc(indices, count * sizeof(int));
+    if (indices == NULL) {
+        printf("Erreur de réallocation de mémoire.\n");
+        exit(1);
+    }
+
+    *taille = count;
+    return indices;
+}
+
 int main() {
     // Initialisation des points
     int P=(int)floor(N/2); // Nombre de paires possibles
+    int tailleI = N;
     Point listePoints[N];
     int estGarde[N];
     initialiserPoints(listePoints, N);
@@ -92,7 +123,6 @@ int main() {
         }
     }
 
-    
 
     // Affichage des points et des indices
     printf("Liste des points :\n");
@@ -112,7 +142,38 @@ int main() {
     printf("Médiane des valeurs critiques : %f\n", x_med);
 
     // Affichage de la valeur de g(x_med)
-    printf("Valeur de g : %f\n", g(x_med, listePoints, estGarde, N));
+    double gmax = g(x_med, listePoints, estGarde, N);
+    printf("Valeur de g : %f\n", gmax);
 
+    int *indices = findIndices(x_med, listePoints, N, gmax, &tailleI);
+    printf("Points gardés : ");
+    for (int i = 0; i < tailleI; ++i) {
+        printf("%d \n", indices[i]+1);
+    }
+
+    // Test de la fin de l'algorithme
+    int inf=1;
+    int sup=1;
+
+    for (int i = 0; i < tailleI; i++){
+        if (listePoints[indices[i]].x <= x_med){
+            sup=0;
+            break;
+        }
+    }
+
+    for (int i = 0; i < tailleI; i++){
+        if (listePoints[indices[i]].x >= x_med){
+            inf=0;
+            break;
+        }
+    }
+
+    if (inf == 0 && sup == 0){
+        printf("Centre trouvé : (%f, 0) et le rayon est de %f\n", x_med, sqrt(gmax));
+    }
+
+    // Libération de la mémoire
+    free(indices);
     return 0;
 }
