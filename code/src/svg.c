@@ -1,13 +1,14 @@
-
+#include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #include "global.h"
 #include "structures.h"
 #include "dessiner.h"
 #include "algonaif.h"
-#include "brutForce.h"
+#include "brutforce.h"
 #include "megiddo.h"
 #include "welz.h"
+#include "sidecenter.h"
 
 FILE *file;
 int i;
@@ -51,12 +52,23 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
   }
   else if(choix == 4) {
     
-    DROITE* droite_tab = algo_megiddo(tab, N);
-    
-    for (i = 0; i<(N/2 + 2); i++) {
-      dessinerDroite(file, droite_tab[i]);
-    }
-    
+    //DROITE* droite_tab = algo_megiddo(tab, N);
+    POINT centre;
+    centre.x = 25;
+    centre.y = 25;
+
+    POINT* I = malloc(sizeof(POINT)*3);
+
+    I[0].x = 1;
+    I[0].y = 1;
+    I[1].x = 1;
+    I[1].y = 2;
+    I[2].x = 2;
+    I[2].y = 1;
+    int cote = side_centre(centre, I, 3);
+    printf("Coté : %d\n", cote);
+
+    solution_welz(tab, file, N);  
   }
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");
