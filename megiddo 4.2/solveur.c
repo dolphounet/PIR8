@@ -155,21 +155,21 @@ int main() {
     int inf=1;
     int sup=1;
 
-    for (int i = 0; i < tailleI; i++){
+    for (int i = 0; i < tailleI; i++){ // On vérifie si tous les points de I sont à droite de x_med
         if (listePoints[indices[i]].x <= x_med){
             sup=0;
             break;
         }
     }
 
-    for (int i = 0; i < tailleI; i++){
+    for (int i = 0; i < tailleI; i++){ // On vérifie si tous les points de I sont à gauche de x_med
         if (listePoints[indices[i]].x >= x_med){
             inf=0;
             break;
         }
     }
 
-    if (inf == 0 && sup == 0){
+    if (inf == 0 && sup == 0){ // Si les points de I ne sont pas tous à droite ou tous à gauche de x_med, on a trouvé le centre
         printf("Centre trouvé : (%f, 0) et le rayon est de %f\n", x_med, sqrt(gmax));
     }
 
