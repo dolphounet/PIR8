@@ -4,11 +4,14 @@
 #include "structures.h"
 #include "global.h"
 #include "dessiner.h"
-#include "brutForce.h"
+#include "brutforce.h"
 
 DROITE p, med;
 double xm, ym, cx, cy, cr;
 double x, y, r;
+int length;
+POINT* oncirle;
+POINT centre;
 int n;
 
 // Calcul de la médiatrice de AB
@@ -32,6 +35,30 @@ double intersection(DROITE d, DROITE med)
     cy = d.pente * cx + d.ordonnee;
     cr = sqrt(pow(cx - p.x_a, 2) + pow(cy - p.y_a, 2));
     return cr;
+}
+
+void pointOnCircle(POINT *tab) 
+{
+    length = 0;
+    int count = 0;
+    for (int i = 0; i < N; i++)
+    {
+        double d = sqrt(pow(tab[i].x - centre.x, 2) + pow(tab[i].y - centre.y, 2));
+        if (d == rayonn) 
+        {
+            length++;
+        }
+    }
+    oncirle = malloc (sizeof(POINT) * length);
+    for (int i = 0; i < N; i++)
+    {
+        double d = sqrt(pow(tab[i].x - centre.x, 2) + pow(tab[i].y - centre.y, 2));
+        if (d == rayonn) 
+        {
+            oncirle[count] = tab[i];
+            count++;
+        }
+    }   
 }
 
 // Calcul les coordonnées du point pour la représentation SVG
@@ -73,7 +100,6 @@ void pairePoint(POINT *tab, DROITE d)
                 centerx = x;
                 centery = y;
                 k = i;
-                printf("%f %d\n", r, n);
             }
             else if(nb_point == n) {
                 if(r <= rayonn)
@@ -83,7 +109,6 @@ void pairePoint(POINT *tab, DROITE d)
                     centerx = x;
                     centery = y;
                     k = i;
-                    printf("%f %d\n", r, n);
                 }
             }        
         }   
@@ -94,6 +119,17 @@ void pairePoint(POINT *tab, DROITE d)
         printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerx, centery, rayonn);
         dessinerCercle(file, centerx_dessin, centery_dessin, rayondessinn, 1);
         dessinerCentre(file, centerx_dessin, centery_dessin);
+        // Affectation des variables globales 
+        centre.x = centerx;
+        centre.y = centery;
+        // Inventaire des points présents sur le cercle
+        pointOnCircle(tab);
+        printf("Voici les points présents sur le cercle :\n");
+        for (int i = 0; i < length; i++)
+        {
+            printf("\t* %f\t%f\n", oncirle[i].x, oncirle[i].y);
+        }  
+        printf("\n");     
     }
     else {
         printf("\nLe nombre de points contenu dans le cercle est inférieur à %d.\nIl n'y a pas de cercle englobant pour cette configuration en utilisant la méthode brutforce.\n\n", N);
