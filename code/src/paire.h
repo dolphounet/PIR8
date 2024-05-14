@@ -8,6 +8,8 @@
 #include "global.h"
 #include "dessiner.h"
 
+double centerx, centery, rayonn, centery_dessin, centerx_dessin, rayondessinn;
+int nb_point, k;
 
 void pairePoint(POINT *tab, DROITE d);
 void mediatrice(DROITE p, double x, double y);
