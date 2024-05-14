@@ -65,7 +65,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
     I[1].y = 2;
     I[2].x = 2;
     I[2].y = 1;
-    int cote = side_centre(centre, I, 3);
+    int cote = side_center(centre, I, 3);
     printf("Coté : %d\n", cote);
 
     solution_welz(tab, file, N);  
