@@ -8,8 +8,10 @@
 #include "fonctions.h"
 #include "algonaif.h"
 
-double centre_x, centre_y, rayon_welz, centre_x_dessin_welz,centre_y_dessin_welz,rayon_dessin_welz,taille;
+double centre_x, centre_y, rayon_welz;
+double centre_x_dessin_welz,centre_y_dessin_welz,rayon_dessin_welz;
 POINT reference;
+int taille; 
 
 int cercle_possible(POINT p, POINT q, POINT r){
     double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;

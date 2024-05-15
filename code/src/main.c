@@ -16,8 +16,7 @@
 #include "dessiner.h"
 
 
-int N, choix, xmin, xmax, ymin, ymax, inf, sup;
-double res_rayon;
+int choix;
 
 int main(int argc, char* argv[]){
 
@@ -34,7 +33,6 @@ int main(int argc, char* argv[]){
   xmax = atoi(argv[3]);
   ymin = atoi(argv[4]);
   ymax = atoi(argv[5]);
-  res_rayon = INFINITY;
   inf = xmin;
   sup = xmax; 
   if (ymax > sup){

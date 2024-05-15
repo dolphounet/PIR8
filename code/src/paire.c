@@ -4,37 +4,52 @@
 #include "structures.h"
 #include "global.h"
 #include "dessiner.h"
-#include "brutforce.h"
 
 DROITE p, med;
-double xm, ym, cx, cy, cr;
-double x, y, r;
-int length;
+double xm, ym, cxx, cyy, crr, X, Y, R;
+double  res_rrayon,ccenterx,ccentery;
+double ccenterx_dessin,ccentery_dessin,rrayon,rrayondessin;
+int kk, length, n_des_points, nn;
 POINT* oncirle;
-POINT centre;
-int n;
+POINT ccentre;
+
+int count_PointsInCircle(POINT *tab, double x, double y, double r)
+{
+    int count = 0;
+    for (int i = 0; i < N; i++)
+    {
+        // Calcul de la distance entre le point (tab[i].x, tab[i].y) et le centre (cx, cy)
+        double distance = sqrt(pow(tab[i].x - x, 2) + pow(tab[i].y - y, 2));
+        // Vérification si la distance est inférieure ou égale au rayon du cercle
+        if (distance <= r)
+        {
+            count++;
+        }
+    }
+    return count;
+}
 
 // Calcul de la médiatrice de AB
-void mediatrice(DROITE p, double x, double y) {
+void mediatrice(DROITE p, double X, double Y) {
     if (p.pente == 0)
     {
         med.pente = 9999999999;
-        med.ordonnee = y - x * med.pente;
+        med.ordonnee = Y - X * med.pente;
     }
     else
     {
         med.pente = -(1 / p.pente);
-        med.ordonnee = y - x * med.pente;
+        med.ordonnee = Y - X * med.pente;
     }
 }
 
 // Calcul du centre du cercle selon d et la médiatrice de AB 
 double intersection(DROITE d, DROITE med)
 {
-    cx = (d.ordonnee - med.ordonnee) / (med.pente - d.pente);
-    cy = d.pente * cx + d.ordonnee;
-    cr = sqrt(pow(cx - p.x_a, 2) + pow(cy - p.y_a, 2));
-    return cr;
+    cxx = (d.ordonnee - med.ordonnee) / (med.pente - d.pente);
+    cyy = d.pente * cxx + d.ordonnee;
+    crr = sqrt(pow(cxx - p.x_a, 2) + pow(cyy - p.y_a, 2));
+    return crr;
 }
 
 void pointOnCircle(POINT *tab) 
@@ -43,8 +58,8 @@ void pointOnCircle(POINT *tab)
     int count = 0;
     for (int i = 0; i < N; i++)
     {
-        double d = sqrt(pow(tab[i].x - centre.x, 2) + pow(tab[i].y - centre.y, 2));
-        if (d == rayonn) 
+        double d = sqrt(pow(tab[i].x - ccentre.x, 2) + pow(tab[i].y - ccentre.y, 2));
+        if (d == rrayon) 
         {
             length++;
         }
@@ -52,8 +67,8 @@ void pointOnCircle(POINT *tab)
     oncirle = malloc (sizeof(POINT) * length);
     for (int i = 0; i < N; i++)
     {
-        double d = sqrt(pow(tab[i].x - centre.x, 2) + pow(tab[i].y - centre.y, 2));
-        if (d == rayonn) 
+        double d = sqrt(pow(tab[i].x - ccentre.x, 2) + pow(tab[i].y - ccentre.y, 2));
+        if (d == rrayon) 
         {
             oncirle[count] = tab[i];
             count++;
@@ -64,11 +79,11 @@ void pointOnCircle(POINT *tab)
 // Calcul les coordonnées du point pour la représentation SVG
 void formatSVG(POINT *tab) 
 {
-    centerx_dessin = ((centerx-inf)*1800/(sup-inf))+100;
-    centery_dessin = ((centery-inf)*1800/(sup-inf))+100;
-    double x_des = ((tab[k].x-inf)*1800/(sup-inf))+100;
-    double y_des = ((tab[k].y-inf)*1800/(sup-inf))+100;
-    rayondessinn = sqrt(pow(centerx_dessin - x_des, 2) + pow(centery_dessin - y_des, 2));
+    double ccenterx_dessin = ((ccenterx-inf)*1800/(sup-inf))+100;
+    double ccentery_dessin = ((ccentery-inf)*1800/(sup-inf))+100;
+    double x_des = ((tab[kk].x-inf)*1800/(sup-inf))+100;
+    double y_des = ((tab[kk].y-inf)*1800/(sup-inf))+100;
+    rrayondessin = sqrt(pow(ccenterx_dessin - x_des, 2) + pow(ccentery_dessin - y_des, 2));
 }
 
 
@@ -90,38 +105,38 @@ void pairePoint(POINT *tab, DROITE d)
             xm = fabs(p.x_a + p.x_b)/2;
             ym = fabs(p.y_a + p.y_b)/2;
             mediatrice(p, xm, ym);
-            r = intersection(d, med);
-            x = cx;
-            y = cy;
-            n = countPointsInCircle(tab, x, y, r);
-            if(nb_point < n) {
-                nb_point = n;
-                rayonn = r;
-                centerx = x;
-                centery = y;
-                k = i;
+            R = intersection(d, med);
+            X = cxx;
+            Y = cyy;
+            nn = count_PointsInCircle(tab, X, Y, R);
+            if(n_des_points < nn) {
+                n_des_points = nn;
+                rrayon = R;
+                ccenterx = X;
+                ccentery = Y;
+                kk = i;
             }
-            else if(nb_point == n) {
-                if(r <= rayonn)
+            else if(n_des_points == nn) {
+                if(R <= rrayon)
                 {
-                    nb_point = n;
-                    rayonn = r;
-                    centerx = x;
-                    centery = y;
-                    k = i;
+                    n_des_points = nn;
+                    rrayon = R;
+                    ccenterx = X;
+                    ccentery = Y;
+                    kk = i;
                 }
             }        
         }   
     }
-    if (nb_point == N) {
+    if (n_des_points == N) {
         formatSVG(tab);
-        printf("\nNombre de points dans le cercle : %d/%d", nb_point, N);
-        printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", centerx, centery, rayonn);
-        dessinerCercle(file, centerx_dessin, centery_dessin, rayondessinn, 1);
-        dessinerCentre(file, centerx_dessin, centery_dessin);
+        printf("\nNombre de points dans le cercle : %d/%d", n_des_points, N);
+        printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", ccenterx, ccentery, rrayon);
+        dessinerCercle(file, ccenterx_dessin, ccentery_dessin, rrayondessin, 1);
+        dessinerCentre(file, ccenterx_dessin, ccentery_dessin);
         // Affectation des variables globales 
-        centre.x = centerx;
-        centre.y = centery;
+        ccentre.x = ccenterx;
+        ccentre.y = ccentery;
         // Inventaire des points présents sur le cercle
         pointOnCircle(tab);
         printf("Voici les points présents sur le cercle :\n");

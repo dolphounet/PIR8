@@ -11,7 +11,6 @@
 #include "sidecenter.h"
 
 FILE *file;
-int i;
 
 void GenerationFichierSVG(POINT* tab , int N, int choix){
   //creation et ouverture du fichier

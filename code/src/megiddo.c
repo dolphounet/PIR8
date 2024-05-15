@@ -1,7 +1,8 @@
-#include "megiddo.h"
-#include "array.h"
 #include <math.h>
 #include <stdio.h>
+#include "structures.h"
+#include "array.h"
+#include "median.h"
 
 int orientation(POINT a, POINT b, DROITE2 d){
   return ((d.a*a.x + d.b*a.y + d.c < 0) == (d.a*b.x + d.b*b.y + d.c < 0));

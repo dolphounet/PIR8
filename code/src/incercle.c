@@ -12,10 +12,10 @@ double dis(POINT p1, POINT p2) {
     return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
 int point_in_cercle(POINT test, double cx, double cy, double r){
-  POINT centre;
-  centre.x = cx; 
-  centre.y = cy; 
-  double dist_point_center = dis(centre, test); 
+  POINT mon_centre;
+  mon_centre.x = cx; 
+  mon_centre.y = cy; 
+  double dist_point_center = dis(mon_centre, test); 
   if (dist_point_center <= r){
     return 1; //INTERIEUR
   }else{

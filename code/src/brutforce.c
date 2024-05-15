@@ -9,10 +9,10 @@
 double px, py;
 double x, y, r;
 double cx, cy, cr;
-int nb_point, n, k;
+int nb_p, n, K;
 CERCLE res_bf;
 
-double centery_dessin, centerx_dessin, rayondessinn, centerx, centery, rayonn;
+double centeerx, centeery, rayyon;
 
 
 // Calcul des coordonnées du centre selon le point (x,y)
@@ -52,43 +52,38 @@ int countPointsInCircle(POINT *tab, double x, double y, double r)
     return count;
 }
 
-
-
-
-
-
 void recherche(POINT *tab, DROITE d)
 {
     px = tab[0].x;
     py = tab[0].y;
     // initialise le rayon potentiel
-    rayonn = xycentre(d, px, py);
-    centerx = cx;
-    centery = cy;
-    nb_point = countPointsInCircle(tab, centerx, centery, rayonn);
-    printf("\n%f %d\n",rayonn, nb_point);
+    rayyon = xycentre(d, px, py);
+    centeerx = cx;
+    centeery = cy;
+    nb_p = countPointsInCircle(tab, centeerx, centeery, rayyon);
+    printf("\n%f %d\n",rayyon, nb_p);
     for (int i = 1; i < N; i++)
     {
         r = xycentre(d, tab[i].x, tab[i].y);
         x = cx;
         y = cy;
         n = countPointsInCircle(tab, x, y, r);
-        if(nb_point < n) {
-            nb_point = n;
-            rayonn = r;
-            centerx = x;
-            centery = y;
-            k = i;
+        if(nb_p < n) {
+            nb_p = n;
+            rayyon = r;
+            centeerx = x;
+            centeery = y;
+            K = i;
             printf("%f %d\n", r, n);
         }
-        else if(nb_point == n) {
-            if(r <= rayonn)
+        else if(nb_p== n) {
+            if(r <= rayyon)
             {
-                nb_point = n;
-                rayonn = r;
-                centerx = x;
-                centery = y;
-                k = i;
+                nb_p = n;
+                rayyon = r;
+                centeerx = x;
+                centeery = y;
+                K = i;
                 printf("%f %d\n", r, n);
             }
         }        
