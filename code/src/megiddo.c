@@ -59,11 +59,11 @@ PAIRE* creation_paires(double angle_m, DROITE2* droite_tab, int n){
     }
   }
   iter j = make_iter(&positifs);
-  iter k = make_iter(&negatifs);
+  iter kq = make_iter(&negatifs);
   PAIRE* paires = malloc(n/4 * sizeof(PAIRE));
   DROITE2 *c1, *c2;
   int i;
-  for (i = 0, c1 = cur(j, DROITE2), c2 = cur(k, DROITE2); c1 && c2 && i < n/4; c1 = next(&j, DROITE2), c2 = next(&k, DROITE2), i++){
+  for (i = 0, c1 = cur(j, DROITE2), c2 = cur(kq, DROITE2); c1 && c2 && i < n/4; c1 = next(&j, DROITE2), c2 = next(&kq, DROITE2), i++){
     paires[i].i = c1;
     paires[i].j = c2;
     if (paires[i].i->b == 0){

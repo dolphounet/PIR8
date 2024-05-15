@@ -7,8 +7,9 @@
 
 DROITE p, med;
 double xm, ym, cxx, cyy, crr, X, Y, R;
-double  res_rrayon,ccenterx,ccentery;
-double ccenterx_dessin,ccentery_dessin,rrayon,rrayondessin;
+double rrayon,ccenterx,ccentery;
+double centerx_mon_dessin,centery_mon_dessin,rayon_mon_dessin;
+
 int kk, length, n_des_points, nn;
 POINT* oncirle;
 POINT ccentre;
@@ -79,11 +80,11 @@ void pointOnCircle(POINT *tab)
 // Calcul les coordonnées du point pour la représentation SVG
 void formatSVG(POINT *tab) 
 {
-    double ccenterx_dessin = ((ccenterx-inf)*1800/(sup-inf))+100;
-    double ccentery_dessin = ((ccentery-inf)*1800/(sup-inf))+100;
+    centerx_mon_dessin= ((ccenterx-inf)*1800/(sup-inf))+100;
+    centery_mon_dessin= ((ccentery-inf)*1800/(sup-inf))+100;
     double x_des = ((tab[kk].x-inf)*1800/(sup-inf))+100;
     double y_des = ((tab[kk].y-inf)*1800/(sup-inf))+100;
-    rrayondessin = sqrt(pow(ccenterx_dessin - x_des, 2) + pow(ccentery_dessin - y_des, 2));
+    rayon_mon_dessin = sqrt(pow(centerx_mon_dessin - x_des, 2) + pow(centery_mon_dessin - y_des, 2));
 }
 
 
@@ -132,8 +133,8 @@ void pairePoint(POINT *tab, DROITE d)
         formatSVG(tab);
         printf("\nNombre de points dans le cercle : %d/%d", n_des_points, N);
         printf("\nVoici les coordonnées du centre (%.2f,%.2f) ainsi que le rayon du cercle %.2f\n\n", ccenterx, ccentery, rrayon);
-        dessinerCercle(file, ccenterx_dessin, ccentery_dessin, rrayondessin, 1);
-        dessinerCentre(file, ccenterx_dessin, ccentery_dessin);
+        dessinerCercle(file, centerx_mon_dessin, centery_mon_dessin, rayon_mon_dessin, 1);
+        dessinerCentre(file, centerx_mon_dessin, centery_mon_dessin);
         // Affectation des variables globales 
         ccentre.x = ccenterx;
         ccentre.y = ccentery;
