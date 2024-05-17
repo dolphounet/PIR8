@@ -20,19 +20,24 @@ int choix;
 
 int main(int argc, char* argv[]){
 
-   // N = nb de points et coordonnées du cadre 
+  // Génère un nombre aléatoire basé sur le temps actuel
   srand(time(NULL));
+  // Vérifie que le nombre correct d'arguments est passé
   if (argc!=6){
     printf ("nb invalide d'arguments\n");
     printf("usage: %s <nbDePoints> <xmin> <xmax> <ymin> <ymax>\n", argv[0]);
     return 1;
   }
-  N = atoi(argv[1]);
-  printf ("%d \n", N);  // Affichage nb de points générés
+  // Convertit les arguments en entiers
+  N = atoi(argv[1]); 
+  printf ("%d \n", N);  // Affiche le nombre de points générés
+
   xmin = atoi(argv[2]);   
   xmax = atoi(argv[3]);
   ymin = atoi(argv[4]);
   ymax = atoi(argv[5]);
+
+  // Définition des limites pour l'affichage
   inf = xmin;
   sup = xmax; 
   if (ymax > sup){
@@ -41,10 +46,12 @@ int main(int argc, char* argv[]){
   if (ymin < inf){
     inf = ymin;
   }
+
+  // Allocation dynamique du tableau de points
   POINT* tab = malloc (sizeof(POINT) * N);
   coord_aleatoires(tab);
   
-  /* Choix de l'algoritme */
+  // Demande à l'utilisateur de choisir un algorithme
   printf("\n\nQuel algorithme voulez-vous utiliser ?\n1. Algo naif\n2. Welz\n3. Force brute\n4. Algo Meggido\nRépondez par 1, 2, 3 ou 4 : ");
 
   while(1) {

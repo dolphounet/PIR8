@@ -3,6 +3,8 @@
 
 #include "structures.h"
 
+
+// Variables global pour faire l'affichage
 extern int N, xmin, xmax, ymin, ymax, inf, sup;
 extern FILE *file;
 

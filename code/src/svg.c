@@ -13,7 +13,16 @@
 FILE *file;
 
 void GenerationFichierSVG(POINT* tab , int N, int choix){
-  //creation et ouverture du fichier
+  /**
+   * Génère un fichier SVG à partir d'un tableau de points avec l'algorithme choisi.
+   * Prend un tableau de points TAB, le nombre de points N, et le choix de l'algorithme CHOIX.
+   * Crée un fichier "Points.svg" et dessine les points ainsi que le résultat de l'algorithme choisi.
+   * Les choix d'algorithme sont : 
+   *   - 1 pour l'algorithme naïf
+   *   - 2 pour l'algorithme de Welz
+   *   - 3 pour l'algorithme de force brute
+   *   - 4 pour l'algorithme de Meggido
+   */
   remove("Points.svg");
   file= fopen("Points.svg", "w");
   
@@ -34,6 +43,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
  
   //affichage des points
   affichage_tous_les_points(tab, file, N);
+
   if(choix == 1) {
     solution_algo_naif(tab, file, N);
   }else if (choix == 2){
@@ -69,6 +79,7 @@ void GenerationFichierSVG(POINT* tab , int N, int choix){
 
     solution_welz(tab, file, N);  
   }
+  
   //fin du programme et fermer le fichier
   fprintf(file, "</svg>\n");
   fclose(file);

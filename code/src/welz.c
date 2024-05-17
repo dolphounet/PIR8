@@ -14,6 +14,14 @@ POINT reference;
 int taille; 
 
 int cercle_possible(POINT p, POINT q, POINT r){
+    /* Vérifie si un cercle peut être formé par trois points donnés.
+    * Parameters:
+    *     p : Le premier point.
+    *     q : Le deuxième point.
+    *     r : Le troisième point.
+    * Returns:
+    *     1 si un cercle peut être formé, 0 sinon.
+    */
     double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;
     if (d!=0){
         return 1; //POSSIBLE
@@ -23,10 +31,20 @@ int cercle_possible(POINT p, POINT q, POINT r){
 }
 
 double dista(POINT p1, POINT p2) {
+    // Calcule la distance entre deux points.
+    // Prend deux points p1 et p2 de type POINT comme arguments.
+    // Retourne la distance entre les deux points en utilisant la formule de la distance euclidienne.
     return sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 }
 
 int is_inside(CERCLE c , POINT p) {
+    /* Vérifie si un point est à l'intérieur d'un cercle donné.
+    * Parameters:
+    *     c : Le cercle.
+    *     p : Le point à vérifier.
+    * Returns:
+    *     1 si le point est à l'intérieur du cercle, 0 sinon.
+    */
     POINT centre;
     centre.x = c.x_cercle; 
     centre.y = c.y_cercle;
@@ -38,6 +56,14 @@ int is_inside(CERCLE c , POINT p) {
 }
 
 int is_valid_circle(CERCLE c, POINT *P, int size) {
+    /* Vérifie si un cercle est valide(si tous les points sont à l'intérieur) pour un ensemble de points donné.
+    * Parameters:
+    *     c : Le cercle.
+    *     P : Le tableau de points.
+    *     size : La taille du tableau de points.
+    * Returns:
+    *     1 si le cercle est valide pour tous les points, 0 sinon.
+    */
     for (int i = 0; i < size; i++) {
         if (!is_inside(c, P[i])) {
             return 0;
@@ -47,15 +73,25 @@ int is_valid_circle(CERCLE c, POINT *P, int size) {
 }
 
 int point_in_cercle_welz(POINT test, double cx, double cy, double r){
-  POINT centre;
-  centre.x = cx; 
-  centre.y = cy; 
-  double dist_point_center = dista(centre, test); 
-  if (dist_point_center <= r){
-    return 1; //INTERIEUR
-  }else{
-    return 0; //EXTERIEUR
-  }
+    /* Vérifie si un point est à l'intérieur d'un cercle donné.
+    * Utilisé dans l'algorithme de Welz.
+    * Parameters:
+    *     test : Le point à vérifier.
+    *     cx : La coordonnée x du centre du cercle.
+    *     cy : La coordonnée y du centre du cercle.
+    *     r : Le rayon du cercle.
+    * Returns:
+    *     1 si le point est à l'intérieur du cercle, 0 sinon.
+    */
+    POINT centre;
+    centre.x = cx; 
+    centre.y = cy; 
+    double dist_point_center = dista(centre, test); 
+    if (dist_point_center <= r){
+        return 1; //INTERIEUR
+    }else{
+        return 0; //EXTERIEUR
+    }
 }
 
 void val_dessin (POINT p1, double centrex,double centrey){
@@ -67,7 +103,15 @@ void val_dessin (POINT p1, double centrex,double centrey){
     rayon_dessin_welz = sqrt(pow(centre_x_dessin_welz - n_pix, 2) + pow(centre_y_dessin_welz - n_piy, 2));
 }
 CERCLE findCircle_welz(POINT p1, POINT p2, POINT p3) {
-    // Calcul des coordonnées du centre 
+    /* Trouve le cercle passant par trois points donnés.
+    * Utilisé dans l'algorithme de Welz.
+    * Parameters:
+    *     p1 : Le premier point.
+    *     p2 : Le deuxième point.
+    *     p3 : Le troisième point.
+    * Returns:
+    *     Le cercle passant par les trois points.
+    */
     double m1 = (p2.y - p1.y) / (p2.x - p1.x);
     double m2 = (p3.y - p2.y) / (p3.x - p2.x);
 
@@ -78,7 +122,14 @@ CERCLE findCircle_welz(POINT p1, POINT p2, POINT p3) {
 }
 
 CERCLE min_cercle_trivial(int size_points,POINT* R, int size_R){
- 
+    /* Trouve le cercle minimal pour un ensemble de points de taille 3 ou moins.
+    * Parameters:
+    *     size_points : La taille de l'ensemble de points.
+    *     R : Le tableau de points.
+    *     size_R : La taille du tableau de points.
+    * Returns:
+    *     Le cercle minimal pour l'ensemble de points.
+    */
     CERCLE d = (CERCLE){0,0,0 };
 
     if (size_points == 0 && size_R==0){
@@ -106,7 +157,15 @@ CERCLE min_cercle_trivial(int size_points,POINT* R, int size_R){
 
 
 CERCLE welz (POINT* tab_copy, POINT* R, int N, int S){
-    //printf("WELZ\nN %d\nR %d\n", N,S);
+    /* Implémente l'algorithme de Welz pour trouver le cercle minimal.
+    * Parameters:
+    *     tab_copy : Une copie du tableau de points.
+    *     R : Un tableau de points.
+    *     N : La taille du tableau de points.
+    *     S : La taille de l'ensemble de points.
+    * Returns:
+    *     Le cercle minimal pour l'ensemble de points.
+    */
     CERCLE d;
     d.x_cercle = 0;
     d.y_cercle = 0; 
@@ -121,13 +180,8 @@ CERCLE welz (POINT* tab_copy, POINT* R, int N, int S){
         d = welz (tab_copy, R, N-1, S);
         tab_copy[N-1].x = p.x;
         tab_copy[N-1].y = p.y;
-        /*for (int i=0; i<N;i++){
-            printf("TAB p1x %.2f, p2y %.2f\n",tab_copy[i].x, tab_copy[i].y);
-        } */
-        //printf("WELZ\n\nCERCLE %.2f, RAYON %.2f\n", d.x_cercle,d.rayon_cercle);
         if (point_in_cercle_welz(p,d.x_cercle, d.y_cercle, d.rayon_cercle)==0){
             R[S] = p; 
-           /// printf("POINT AJOUTER\n\nx %.2f, y %.2f\n", p.x,p.y);
             d = welz (tab_copy, R, N-1, S+1);  
         }            
     }
@@ -135,7 +189,13 @@ CERCLE welz (POINT* tab_copy, POINT* R, int N, int S){
 }
 
 CERCLE welz_init (POINT* tab , int N){
-    
+    /* Initialise l'algorithme de Welz pour trouver le cercle minimal.
+    * Parameters:
+    *     tab : Le tableau de points.
+    *     N : La taille du tableau de points.
+    * Returns:
+    *     Le cercle minimal pour l'ensemble de points.
+    */
     POINT *tab_copy = malloc(N * sizeof(POINT));
     for(int i = 0; i< N ; i++){
         tab_copy[i] = tab[i];
@@ -152,6 +212,12 @@ CERCLE welz_init (POINT* tab , int N){
 }
 
 void solution_welz (POINT* tab,FILE *file, int N){
+    /* Implémente la solution utilisant l'algorithme de Welz pour trouver le cercle minimal et le dessine.
+    * Parameters:
+    *     tab : Le tableau de points.
+    *     file : Le fichier SVG.
+    *     N : La taille du tableau de points.
+    */
     CERCLE cercle_welz = welz_init(tab,N);
     printf("WELZ\n\ncentreX %.2f, centreY %.2f, rayon %.2f \n\n", cercle_welz.x_cercle, cercle_welz.y_cercle,cercle_welz.rayon_cercle);
     if (taille == 1){

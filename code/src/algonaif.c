@@ -12,6 +12,9 @@ double centerX, centerY, rayon, centerX_dessin, centerY_dessin, rayondessin;
 double res_x, res_y, res_rayon, res_x_dessin, res_y_dessin, res_rayon_dessin;
 
 char* dessinerCercle_naif(FILE *file, double x, double y, double r)  {
+  // Dessine un cercle en SVG avec une bordure rouge.
+  // Prend un pointeur vers un fichier FILE, les coordonnées x et y du centre, et le rayon r du cercle.
+  // Retourne une chaîne de caractères contenant le code SVG du cercle.
   char* codeCercle = malloc (sizeof (*codeCercle) * 500);
   sprintf(codeCercle,"<circle cx=\"%f\" cy=\"%f\" r=\"%f\" stroke=\"red\" stroke-width=\"3\" fill=\"transparent\" fill-opacity=\"0\" />",x,y,r);
   fprintf(file,"%s\n", codeCercle);
@@ -19,6 +22,9 @@ char* dessinerCercle_naif(FILE *file, double x, double y, double r)  {
 }
 
 int test_cercle_naif(POINT p, POINT q, POINT r){
+    // Vérifie si trois points définissent un cercle en fonction de la direction du déterminant.
+    // Prend trois points p, q et r.
+    // Renvoie 1 si les points définissent un cercle, 0 sinon.
     double d = (p.x * (q.y - r.y) + q.x * (r.y - p.y) + r.x * (p.y - q.y)) * 2 ;
     if (d>=0){
         return 1; //INTERIEUR
@@ -28,6 +34,8 @@ int test_cercle_naif(POINT p, POINT q, POINT r){
 }
 
 void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY, double *rayon) {
+    // Trouve le centre et le rayon d'un cercle passant par deux points.
+    // Prend deux points p1 et p2, et des pointeurs vers les coordonnées x et y du centre du cercle, et le rayon du cercle.
     *centerX = (p1.x + p2.x) / 2;
     *centerY = (p1.y + p2.y) / 2;
     double a =p1.x;
@@ -40,9 +48,10 @@ void findCircle_deux_points(POINT p1, POINT p2, double *centerX, double *centerY
     rayondessin = sqrt(pow(centerX_dessin - n_pix, 2) + pow(centerY_dessin - n_piy, 2));
 }
 
-// Fonction pour trouver le cercle passant par trois points
+
 void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, double *rayon) {
-    // Calcul des coordonnées du centre potentiel du cercle
+    // Trouve le centre et le rayon d'un cercle passant par trois points.
+    // Prend trois points p1, p2 et p3, et des pointeurs vers les coordonnées x et y du centre du cercle, et le rayon du cercle.
     double m1 = (p2.y - p1.y) / (p2.x - p1.x);
     double m2 = (p3.y - p2.y) / (p3.x - p2.x);
 
@@ -57,7 +66,9 @@ void findCircle(POINT p1, POINT p2, POINT p3, double *centerX, double *centerY, 
 }
 
 int tous_les_points_dans_cercle_trois_points (POINT* tab, POINT a, POINT b, POINT c){
-  //verifier si tous les points sont dans un cercle définit par trois points
+  // Vérifie si tous les points d'un tableau sont à l'intérieur d'un cercle défini par trois points.
+  // Prend un tableau de points tab, et trois points a, b et c.
+  // Renvoie 1 si tous les points sont à l'intérieur du cercle, 0 sinon.
   int inside = 1; 
   for (int i = 0; i < N; i++) {  
     POINT test;
@@ -72,7 +83,9 @@ int tous_les_points_dans_cercle_trois_points (POINT* tab, POINT a, POINT b, POIN
 }
 
 int tous_les_points_dans_cercle(POINT* tab, double *centerX, double *centerY, double *rayon){
-  ///verifier si tous les points points sont dans un cercle definit par deux points
+  // Vérifie si tous les points d'un tableau sont à l'intérieur d'un cercle défini par son centre et son rayon.
+  // Prend un tableau de points tab, et les coordonnées x et y du centre et le rayon du cercle.
+  // Renvoie 1 si tous les points sont à l'intérieur du cercle, 0 sinon.
   int inside = 1;
   for (int i = 0; i < N; i++) {  
     POINT d;
@@ -87,7 +100,8 @@ int tous_les_points_dans_cercle(POINT* tab, double *centerX, double *centerY, do
 }
 
 void algo_naif (FILE *file,POINT* tab, int N){
-  // ON teste les combinaisons de 2 et 3 points 
+  // Implémente l'algorithme naïf pour trouver le plus petit cercle englobant.
+  // Prend un pointeur vers un fichier FILE, un tableau de points tab, et le nombre de points N.
   for (int i = 0; i < N-1; i++) {
     POINT p;
     p.x = tab[i].x;
@@ -109,6 +123,7 @@ void algo_naif (FILE *file,POINT* tab, int N){
     }
   }
   // On n'a pas trouvé des cercles de deux points qui entourent tous les points
+  // On essaye les combinaisons de trois points 
   for (int i = 0; i < N-2; i++) {
     POINT p;
     p.x = tab[i].x;
@@ -145,6 +160,8 @@ void algo_naif (FILE *file,POINT* tab, int N){
 }
 
 void solution_algo_naif(POINT tab[], FILE* file, int N){
+  // Trouve la solution du problème du plus petit cercle englobant en utilisant l'algorithme naïf.
+  // Prend un tableau de points tab, un pointeur vers un fichier FILE, et le nombre de points N.
   res_rayon = 99999999;
   if(N == 0) {
     res_x = 0; 
